@@ -174,20 +174,19 @@ lead → contacted → quoted → agreement_sent → deposit_paid → in_progres
 - Sprint 5 ✅ Portal: agreement — done (magic link instead of password auth)
 - Sprint 6 ✅ Portal: deposit — done (Stripe webhook needs Stripe config)
 - Sprint 7 ✅ Portal: discovery + uploads — done (simplified to 3 fields vs 6-question form)
-- Sprint 8 ⬜ Portal: status dashboard — NOT STARTED (progress bar, file list, invoice history)
-- Sprint 9 ⬜ Admin nav + invoice tool — NOT STARTED
+- Sprint 8 ✅ Portal: status dashboard — DONE (7-step progress tracker, status message, preview/live URL links, files list, invoice history)
+- Sprint 9 ✅ Admin nav + invoice tool — DONE (nav tabs, Send Invoice modal → Stripe Checkout + invoice record + Resend email + activity log)
 - Sprint 10 ⬜ Deploy + end-to-end test — blocked until Stripe env vars set
 
 ## Current TODO
-1. **Supabase migration** — run `supabase/migration.sql` top section in SQL editor: adds `notes`, `preview_url`, `live_url` to clients + RLS policies for portal UPDATE on clients and INSERT on discovery_responses
-2. **Deploy** — push all changes to production (Sprints 4–7 + bug fixes all local)
-3. **Netlify env vars** — add before deploy: `STRIPE_SECRET_KEY`, confirm `ADMIN_EMAIL` = `goblackcar@gmail.com`
-4. **Stripe webhook** — after deploy: set webhook URL in Stripe dashboard → `/.netlify/functions/stripe-webhook`, copy secret → add `STRIPE_WEBHOOK_SECRET` in Netlify, redeploy
-5. **Supabase Auth redirect URLs** — add `https://blatantengagement.com/client/*` to allowed redirect URLs
-6. **DMARC DNS update** — change `_dmarc` TXT from `p=none` to `p=quarantine; rua=mailto:hello@blatantengagement.com`
-7. **Expired/used magic link message** — show clear error on `/admin` when link has been used/expired
-8. **Drop `client_contacts`** — run `drop table client_contacts;` in Supabase SQL editor
-9. **Post on Facebook Marketplace** — use facebook-posts.md templates
+1. **Deploy** — push all changes to production (Sprints 4–9 + bug fixes, all local commits)
+2. **Netlify env vars** — add before deploy: `STRIPE_SECRET_KEY`, confirm `ADMIN_EMAIL` = `goblackcar@gmail.com`
+3. **Stripe webhook** — after deploy: set webhook URL in Stripe dashboard → `/.netlify/functions/stripe-webhook`, copy secret → add `STRIPE_WEBHOOK_SECRET` in Netlify, redeploy
+4. **Supabase Auth redirect URLs** — add `https://blatantengagement.com/client/*` to allowed redirect URLs
+5. **DMARC DNS update** — change `_dmarc` TXT from `p=none` to `p=quarantine; rua=mailto:hello@blatantengagement.com`
+6. **Expired/used magic link message** — show clear error on `/admin` when link has been used/expired
+7. **Drop `client_contacts`** — run `drop table client_contacts;` in Supabase SQL editor
+8. **Post on Facebook Marketplace** — use facebook-posts.md templates
 
 ## Blocked
 - None
@@ -201,11 +200,14 @@ lead → contacted → quoted → agreement_sent → deposit_paid → in_progres
 
 ## Recently Completed (2026-03-17 session)
 - Git repo initialized locally (local commits only, no remote yet)
-- **Bug fixes:** `/client/*` wildcard redirect added to netlify.toml; PKG_LABEL/PKG_AMOUNT case mismatch fixed; leads from contact form now create a `clients` record via new-lead.js webhook (Step 4)
-- **Collateral submit refactored:** `submit-collateral.js` + `storage-upload-url.js` Netlify functions replace direct anon-key Supabase calls (fixes RLS gaps for clients UPDATE and discovery_responses INSERT)
+- **DB migration applied:** `notes`, `preview_url`, `live_url` columns added to `clients`; `portal_update_own_client` + `portal_insert_own_discovery` RLS policies created ✓
+- **Bug fixes:** `/client/*` wildcard redirect added to netlify.toml; PKG_LABEL/PKG_AMOUNT case mismatch fixed; leads from contact form now create a `clients` record via new-lead.js webhook; drag-then-click conflict fixed on pipeline cards; storage signed URL path corrected
+- **Collateral submit refactored:** `submit-collateral.js` + `storage-upload-url.js` Netlify functions replace direct anon-key Supabase calls (fixes RLS gaps)
 - **Sprint 4 complete:** `admin/pipeline/index.html` — slide-in detail panel with 5 tabs (Details, Activity, Files, Discovery, Invoices). Editable fields auto-save with 1.2s debounce. Status dropdown calls `moveCard`. Files tab uses `get-client-files.js` for signed download URLs. Send Portal Link calls `send-portal-link.js`.
-- **New functions:** `submit-collateral.js`, `storage-upload-url.js`, `send-portal-link.js`, `get-client-files.js`
-- **DB migration SQL written:** `supabase/migration.sql` — adds `notes`, `preview_url`, `live_url` columns + portal RLS policies (needs to be run in Supabase dashboard)
+- **Sprint 8 complete:** `client/index.html` — persistent status dashboard replaces static step-done. 7-step progress tracker, status message, preview/live URL links, uploaded files list, invoice history. `get-portal-data.js` function serves files + invoices via service role.
+- **Sprint 9 complete:** `admin/pipeline/index.html` — nav tabs (Pipeline active, Calendar/Revenue/Accounting placeholder). Send Invoice modal → `send-invoice.js` creates Stripe Checkout, inserts invoice record, emails client via Resend, logs activity.
+- **New functions:** `submit-collateral.js`, `storage-upload-url.js`, `send-portal-link.js`, `get-client-files.js`, `get-portal-data.js`, `send-invoice.js`
+- **Supabase Schema — clients table** now also has: `notes`, `preview_url`, `live_url`
 - **Supabase Schema — clients table** now also has: `notes`, `preview_url`, `live_url` (after migration is run)
 
 ## Recently Completed (previous session)
