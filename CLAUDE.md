@@ -176,20 +176,19 @@ lead → contacted → quoted → agreement_sent → deposit_paid → in_progres
 - Sprint 7 ✅ Portal: discovery + uploads — done (simplified to 3 fields vs 6-question form)
 - Sprint 8 ✅ Portal: status dashboard — DONE (7-step progress tracker, status message, preview/live URL links, files list, invoice history)
 - Sprint 9 ✅ Admin nav + invoice tool — DONE (nav tabs, Send Invoice modal → Stripe Checkout + invoice record + Resend email + activity log)
-- Sprint 10 ⬜ Deploy + end-to-end test — blocked until Stripe env vars set
+- Sprint 10 ✅ Deploy + end-to-end test — DONE (deployed 2026-03-17, all 13 functions live, blatantengagement.com)
 
 ## Current TODO
-1. **Deploy** — push all changes to production (Sprints 4–9 + bug fixes, all local commits)
-2. **Netlify env vars** — add before deploy: `STRIPE_SECRET_KEY`, confirm `ADMIN_EMAIL` = `goblackcar@gmail.com`
-3. **Stripe webhook** — after deploy: set webhook URL in Stripe dashboard → `/.netlify/functions/stripe-webhook`, copy secret → add `STRIPE_WEBHOOK_SECRET` in Netlify, redeploy
-4. **Supabase Auth redirect URLs** — add `https://blatantengagement.com/client/*` to allowed redirect URLs
-5. **DMARC DNS update** — change `_dmarc` TXT from `p=none` to `p=quarantine; rua=mailto:hello@blatantengagement.com`
-6. **Expired/used magic link message** — show clear error on `/admin` when link has been used/expired
-7. **Drop `client_contacts`** — run `drop table client_contacts;` in Supabase SQL editor
-8. **Post on Facebook Marketplace** — use facebook-posts.md templates
+1. **Stripe webhook** — set webhook URL in Stripe dashboard → `/.netlify/functions/stripe-webhook`, copy secret → add `STRIPE_WEBHOOK_SECRET` in Netlify env vars, then redeploy
+2. **Supabase Auth redirect URLs** — add `https://blatantengagement.com/client/*` to allowed redirect URLs in Supabase Auth → URL Configuration
+3. **End-to-end test** — full flow: contact form → Telegram → pipeline → Approve Lead → client portal → agree → Stripe → collateral → dashboard
+4. **DMARC DNS update** — change `_dmarc` TXT from `p=none` to `p=quarantine; rua=mailto:hello@blatantengagement.com`
+5. **Expired/used magic link message** — show clear error on `/admin` when link has been used/expired
+6. **Drop `client_contacts`** — run `drop table client_contacts;` in Supabase SQL editor
+7. **Post on Facebook Marketplace** — use facebook-posts.md templates
 
 ## Blocked
-- None
+- End-to-end Stripe flow blocked until `STRIPE_WEBHOOK_SECRET` is set (Stripe webhook not yet configured)
 
 ## Supabase MCP Status
 - MCP confirmed on correct project (tnytkvmfswpupxtlnaad) as of 2026-03-15 session
@@ -198,7 +197,13 @@ lead → contacted → quoted → agreement_sent → deposit_paid → in_progres
 - If MCP connects to wrong project again, check `claude_desktop_config.json` FIRST (AppData/Roaming/Claude/ or similar)
 - Portal tables confirmed created on correct project — all 7 present with RLS enabled
 
-## Recently Completed (2026-03-17 session)
+## Recently Completed (2026-03-17 session — part 2)
+- **Sprint 10 DEPLOYED** — `netlify deploy --prod` succeeded. All 13 functions live. blatantengagement.com is production.
+- Deploy ID: `69b800e54ef24b5f9da2f346` — 32 files + 13 functions uploaded
+- All env vars confirmed in Netlify: `ADMIN_EMAIL`, `ANTHROPIC_API_KEY`, `RESEND_API_KEY`, `STRIPE_SECRET_KEY`, `SUPABASE_SERVICE_ROLE_KEY`, `TELEGRAM_BOT_TOKEN`
+- Local git commit created: "Sprint 10: Production deploy"
+
+## Recently Completed (2026-03-17 session — part 1)
 - Git repo initialized locally (local commits only, no remote yet)
 - **DB migration applied:** `notes`, `preview_url`, `live_url` columns added to `clients`; `portal_update_own_client` + `portal_insert_own_discovery` RLS policies created ✓
 - **Bug fixes:** `/client/*` wildcard redirect added to netlify.toml; PKG_LABEL/PKG_AMOUNT case mismatch fixed; leads from contact form now create a `clients` record via new-lead.js webhook; drag-then-click conflict fixed on pipeline cards; storage signed URL path corrected
