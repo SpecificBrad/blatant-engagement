@@ -1,0 +1,1532 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pipeline — Blatant Engagement</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    :root {
+      --hero-bg:     #120e0b;
+      --dark:        #1a1512;
+      --dark-2:      #231c17;
+      --dark-3:      #2a201a;
+      --dark-border: #312620;
+      --accent:      #c05a28;
+      --accent-h:    #9d4820;
+      --white:       #ffffff;
+      --warm-white:  #fdfaf7;
+      --warm-cream:  #f3ece0;
+      --warm-border: #e4d9cc;
+      --text:        #1c1915;
+      --text-light:  #6b5f54;
+      --text-muted:  #a09080;
+      --success:     #3d8c5e;
+      --error:       #b91c1c;
+      --font-display: 'Plus Jakarta Sans', sans-serif;
+      --font-body:    'Inter', sans-serif;
+    }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--hero-bg);
+      color: var(--white);
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 28px;
+      border-bottom: 1px solid var(--dark-border);
+      background: rgba(18,14,11,0.97);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .nav-left { display: flex; align-items: center; gap: 20px; }
+
+    .nav-logo {
+      font-family: var(--font-display);
+      font-weight: 900;
+      font-size: 1.1rem;
+      color: var(--white);
+      text-decoration: none;
+      letter-spacing: -0.025em;
+    }
+    .nav-logo span { color: var(--accent); }
+
+    .nav-divider {
+      width: 1px;
+      height: 18px;
+      background: var(--dark-border);
+    }
+
+    .nav-page {
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    .nav-right { display: flex; align-items: center; gap: 12px; }
+
+    .nav-user {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .btn-new-client {
+      background: var(--accent);
+      color: var(--white);
+      border: none;
+      padding: 9px 20px;
+      border-radius: 6px;
+      font-family: var(--font-display);
+      font-size: 0.82rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.15s, transform 0.1s;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .btn-new-client:hover { background: var(--accent-h); transform: translateY(-1px); }
+
+    .btn-logout {
+      background: transparent;
+      border: 1px solid var(--dark-border);
+      color: var(--text-muted);
+      padding: 7px 14px;
+      border-radius: 6px;
+      font-family: var(--font-body);
+      font-size: 0.8rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: border-color 0.15s, color 0.15s;
+    }
+    .btn-logout:hover { border-color: var(--accent); color: var(--accent); }
+
+    /* ── LOADING / LOGIN PROMPT ── */
+    #view-loading, #view-login-prompt {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: calc(100vh - 62px);
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+
+    /* ── BOARD ── */
+    #view-board { display: none; }
+
+    .board-wrap {
+      overflow-x: auto;
+      padding: 24px 28px 40px;
+      min-height: calc(100vh - 62px);
+    }
+
+    .board {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      min-width: max-content;
+    }
+
+    /* ── COLUMN ── */
+    .col {
+      width: 220px;
+      flex-shrink: 0;
+      background: var(--dark-2);
+      border: 1px solid var(--dark-border);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .col-header {
+      padding: 12px 14px 10px;
+      border-bottom: 1px solid var(--dark-border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .col-title {
+      font-family: var(--font-display);
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    .col-count {
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: var(--dark-border);
+      background: var(--dark);
+      border-radius: 10px;
+      padding: 1px 7px;
+      min-width: 20px;
+      text-align: center;
+    }
+
+    .col-body {
+      padding: 10px;
+      min-height: 80px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .col-body.drag-over {
+      background: rgba(192,90,40,0.06);
+      outline: 2px dashed rgba(192,90,40,0.3);
+      outline-offset: -4px;
+      border-radius: 6px;
+    }
+
+    /* ── CARD ── */
+    .client-card {
+      background: var(--dark);
+      border: 1px solid var(--dark-border);
+      border-radius: 10px;
+      padding: 12px 14px;
+      cursor: grab;
+      transition: border-color 0.15s, transform 0.1s, box-shadow 0.15s;
+      user-select: none;
+    }
+    .client-card:hover {
+      border-color: rgba(192,90,40,0.4);
+      box-shadow: 0 2px 12px rgba(0,0,0,0.3);
+    }
+    .client-card.dragging {
+      opacity: 0.45;
+      cursor: grabbing;
+    }
+
+    .card-business {
+      font-family: var(--font-display);
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--white);
+      letter-spacing: -0.01em;
+      margin-bottom: 3px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .card-name {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-bottom: 10px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .card-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6px;
+    }
+
+    .card-pkg {
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--accent);
+      background: rgba(192,90,40,0.12);
+      border-radius: 4px;
+      padding: 2px 7px;
+    }
+
+    .card-amount {
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--white);
+    }
+
+    .card-days {
+      font-size: 0.68rem;
+      color: var(--text-muted);
+      margin-top: 7px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .card-days svg { flex-shrink: 0; }
+
+    .days-warn { color: #f59e0b; }
+    .days-alert { color: #ef4444; }
+
+    /* ── MODAL ── */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.7);
+      backdrop-filter: blur(4px);
+      z-index: 200;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+    .modal-overlay.open { display: flex; }
+
+    .modal {
+      background: var(--dark-2);
+      border: 1px solid var(--dark-border);
+      border-radius: 14px;
+      padding: 36px 40px;
+      width: 100%;
+      max-width: 500px;
+      position: relative;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      padding: 4px;
+      border-radius: 4px;
+      transition: color 0.15s;
+      line-height: 0;
+    }
+    .modal-close:hover { color: var(--white); }
+
+    .modal-eyebrow {
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .modal-eyebrow::before {
+      content: '';
+      display: block;
+      width: 20px;
+      height: 1px;
+      background: var(--accent);
+    }
+
+    .modal-title {
+      font-family: var(--font-display);
+      font-size: 1.4rem;
+      font-weight: 800;
+      letter-spacing: -0.025em;
+      color: var(--white);
+      margin-bottom: 24px;
+    }
+
+    /* ── FORM (shared) ── */
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    .form-row.full { grid-template-columns: 1fr; }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-bottom: 14px;
+    }
+
+    label {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: rgba(255,255,255,0.7);
+    }
+
+    input, select {
+      background: var(--dark);
+      border: 1px solid var(--dark-border);
+      border-radius: 8px;
+      padding: 11px 14px;
+      font-family: var(--font-body);
+      font-size: 0.9rem;
+      color: var(--white);
+      outline: none;
+      transition: border-color 0.15s;
+      width: 100%;
+      appearance: none;
+      -webkit-appearance: none;
+    }
+    input::placeholder { color: var(--text-muted); }
+    input:focus, select:focus { border-color: var(--accent); }
+    select option { background: var(--dark-2); }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      background: var(--accent);
+      color: var(--white);
+      border: none;
+      padding: 13px 28px;
+      border-radius: 7px;
+      font-family: var(--font-display);
+      font-size: 0.9rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.15s, transform 0.1s;
+      width: 100%;
+      margin-top: 6px;
+    }
+    .btn-primary:hover:not(:disabled) { background: var(--accent-h); transform: translateY(-1px); }
+    .btn-primary:disabled { opacity: 0.55; cursor: not-allowed; transform: none; }
+
+    .status-msg {
+      display: none;
+      border-radius: 8px;
+      padding: 12px 16px;
+      font-size: 0.85rem;
+      line-height: 1.5;
+      margin-top: 14px;
+    }
+    .status-msg.success { background: rgba(61,140,94,0.15); border: 1px solid rgba(61,140,94,0.3); color: #6ee7a7; }
+    .status-msg.error   { background: rgba(185,28,28,0.15); border: 1px solid rgba(185,28,28,0.3); color: #fca5a5; }
+
+    .spinner {
+      width: 16px; height: 16px;
+      border: 2px solid rgba(255,255,255,0.3);
+      border-top-color: var(--white);
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+      display: none;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ── EMPTY STATE ── */
+    .col-empty {
+      font-size: 0.75rem;
+      color: var(--dark-border);
+      text-align: center;
+      padding: 12px 0 4px;
+      pointer-events: none;
+    }
+
+    /* ── LOST COLUMN TINT ── */
+    .col[data-status="lost"] .col-header { border-bottom-color: rgba(239,68,68,0.15); }
+    .col[data-status="lost"] .col-title  { color: rgba(239,68,68,0.5); }
+    .col[data-status="complete"] .col-title { color: rgba(61,140,94,0.7); }
+
+    /* ── DETAIL PANEL ── */
+    .panel-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.45);
+      z-index: 300;
+    }
+    .panel-overlay.open { display: block; }
+
+    .panel {
+      position: fixed;
+      top: 0; right: 0; bottom: 0;
+      width: 480px;
+      max-width: 100vw;
+      background: var(--dark-2);
+      border-left: 1px solid var(--dark-border);
+      z-index: 301;
+      display: flex;
+      flex-direction: column;
+      transform: translateX(100%);
+      transition: transform 0.25s ease;
+    }
+    .panel.open { transform: translateX(0); }
+
+    .panel-head {
+      padding: 20px 24px 16px;
+      border-bottom: 1px solid var(--dark-border);
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      flex-shrink: 0;
+    }
+    .panel-head-info { min-width: 0; }
+    .panel-business {
+      font-family: var(--font-display);
+      font-size: 1.15rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      color: var(--white);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .panel-contact {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      margin-top: 3px;
+    }
+    .panel-close {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      padding: 4px;
+      border-radius: 4px;
+      line-height: 0;
+      flex-shrink: 0;
+    }
+    .panel-close:hover { color: var(--white); }
+
+    .panel-tabs {
+      display: flex;
+      border-bottom: 1px solid var(--dark-border);
+      flex-shrink: 0;
+    }
+    .panel-tab {
+      flex: 1;
+      padding: 10px 6px;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      background: transparent;
+      border: none;
+      border-bottom: 2px solid transparent;
+      cursor: pointer;
+      transition: color 0.15s, border-color 0.15s;
+    }
+    .panel-tab:hover { color: var(--white); }
+    .panel-tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+    .panel-body {
+      flex: 1;
+      overflow-y: auto;
+      padding: 20px 24px;
+    }
+
+    .panel-section { margin-bottom: 24px; }
+    .panel-section-title {
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+    }
+
+    /* panel fields */
+    .pfield {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      margin-bottom: 12px;
+    }
+    .pfield label {
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: rgba(255,255,255,0.5);
+    }
+    .pfield input, .pfield select, .pfield textarea {
+      background: var(--dark);
+      border: 1px solid var(--dark-border);
+      border-radius: 7px;
+      padding: 9px 12px;
+      font-family: var(--font-body);
+      font-size: 0.875rem;
+      color: var(--white);
+      outline: none;
+      width: 100%;
+      transition: border-color 0.15s;
+      appearance: none;
+      -webkit-appearance: none;
+    }
+    .pfield input::placeholder, .pfield textarea::placeholder { color: var(--text-muted); }
+    .pfield input:focus, .pfield select:focus, .pfield textarea:focus { border-color: var(--accent); }
+    .pfield textarea { resize: vertical; min-height: 72px; }
+    .pfield select option { background: var(--dark-2); }
+
+    .pfield-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+
+    .save-indicator {
+      font-size: 0.72rem;
+      color: var(--success);
+      margin-top: 4px;
+      display: none;
+    }
+    .save-indicator.show { display: block; }
+
+    /* agreement badge */
+    .agreement-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+    }
+    .agreement-badge.pending  { background: rgba(192,90,40,0.15); color: #f5a87b; }
+    .agreement-badge.agreed   { background: rgba(61,140,94,0.15);  color: #6ee7a7; }
+    .agreement-badge.declined { background: rgba(185,28,28,0.15);  color: #fca5a5; }
+    .agreement-badge.none     { background: rgba(160,144,128,0.15); color: var(--text-muted); }
+
+    /* timeline */
+    .timeline { display: flex; flex-direction: column; gap: 0; }
+    .tl-item {
+      display: flex;
+      gap: 12px;
+      padding-bottom: 16px;
+      position: relative;
+    }
+    .tl-item:not(:last-child)::before {
+      content: '';
+      position: absolute;
+      left: 7px;
+      top: 16px;
+      bottom: 0;
+      width: 1px;
+      background: var(--dark-border);
+    }
+    .tl-dot {
+      width: 15px;
+      height: 15px;
+      border-radius: 50%;
+      background: var(--dark-border);
+      border: 2px solid var(--dark-2);
+      flex-shrink: 0;
+      margin-top: 3px;
+    }
+    .tl-dot.accent { background: var(--accent); }
+    .tl-content { flex: 1; min-width: 0; }
+    .tl-desc {
+      font-size: 0.82rem;
+      color: rgba(255,255,255,0.75);
+      line-height: 1.4;
+    }
+    .tl-time {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    /* file list */
+    .file-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 12px;
+      background: var(--dark);
+      border: 1px solid var(--dark-border);
+      border-radius: 7px;
+      margin-bottom: 6px;
+      font-size: 0.82rem;
+    }
+    .file-row span { flex: 1; color: var(--white); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .file-row a { color: var(--accent); font-size: 0.75rem; font-weight: 600; text-decoration: none; white-space: nowrap; }
+    .file-row a:hover { text-decoration: underline; }
+
+    /* invoice list */
+    .invoice-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 12px;
+      background: var(--dark);
+      border: 1px solid var(--dark-border);
+      border-radius: 7px;
+      margin-bottom: 6px;
+      font-size: 0.82rem;
+    }
+    .invoice-label { color: var(--white); }
+    .invoice-amount { font-weight: 700; color: var(--white); }
+    .invoice-status {
+      font-size: 0.68rem;
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    .invoice-status.paid    { background: rgba(61,140,94,0.15);  color: #6ee7a7; }
+    .invoice-status.pending { background: rgba(192,90,40,0.15);  color: #f5a87b; }
+
+    /* discovery */
+    .disc-row { margin-bottom: 12px; }
+    .disc-q { font-size: 0.72rem; font-weight: 600; color: var(--text-muted); margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.08em; }
+    .disc-a { font-size: 0.85rem; color: rgba(255,255,255,0.75); line-height: 1.5; }
+
+    /* panel action buttons */
+    .panel-actions {
+      padding: 16px 24px;
+      border-top: 1px solid var(--dark-border);
+      display: flex;
+      gap: 10px;
+      flex-shrink: 0;
+    }
+    .btn-panel-primary {
+      flex: 1;
+      background: var(--accent);
+      color: var(--white);
+      border: none;
+      padding: 10px 16px;
+      border-radius: 7px;
+      font-family: var(--font-display);
+      font-size: 0.82rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    .btn-panel-primary:hover { background: var(--accent-h); }
+    .btn-panel-primary:disabled { opacity: 0.5; cursor: not-allowed; }
+    .btn-panel-ghost {
+      background: transparent;
+      border: 1px solid var(--dark-border);
+      color: var(--text-muted);
+      padding: 10px 16px;
+      border-radius: 7px;
+      font-family: var(--font-body);
+      font-size: 0.82rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: border-color 0.15s, color 0.15s;
+    }
+    .btn-panel-ghost:hover { border-color: var(--accent); color: var(--accent); }
+
+    .panel-empty {
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.82rem;
+      padding: 24px 0;
+    }
+
+    .tab-pane { display: none; }
+    .tab-pane.active { display: block; }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <div class="nav-left">
+      <a href="/" class="nav-logo">Blatant<span>.</span></a>
+      <div class="nav-divider"></div>
+      <span class="nav-page">Pipeline</span>
+      <div class="nav-divider"></div>
+      <a href="/admin" style="font-size:0.78rem;font-weight:600;color:var(--text-muted);text-decoration:none;transition:color 0.15s;" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--text-muted)'">← Admin</a>
+    </div>
+    <div class="nav-right">
+      <button class="btn-new-client" id="btn-open-modal" style="display:none" onclick="openModal()">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        New Client
+      </button>
+      <span class="nav-user" id="nav-user-email"></span>
+      <button class="btn-logout" id="btn-logout" style="display:none" onclick="handleLogout()">Sign out</button>
+    </div>
+  </nav>
+
+  <div id="view-loading">Loading…</div>
+  <div id="view-login-prompt" style="display:none">
+    <div style="text-align:center">
+      <p style="margin-bottom:16px;color:var(--text-muted)">You need to sign in first.</p>
+      <a href="/admin" style="color:var(--accent);font-weight:600;font-size:0.9rem">Go to sign in →</a>
+    </div>
+  </div>
+
+  <!-- ── BOARD ── -->
+  <div id="view-board">
+    <div class="board-wrap">
+      <div class="board" id="board"></div>
+    </div>
+  </div>
+
+  <!-- ── DETAIL PANEL ── -->
+  <div class="panel-overlay" id="panel-overlay" onclick="handlePanelOverlay(event)"></div>
+  <div class="panel" id="detail-panel">
+    <div class="panel-head">
+      <div class="panel-head-info">
+        <div class="panel-business" id="panel-business">—</div>
+        <div class="panel-contact" id="panel-contact"></div>
+      </div>
+      <button class="panel-close" onclick="closePanel()" aria-label="Close">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+
+    <div class="panel-tabs">
+      <button class="panel-tab active" data-tab="details" onclick="switchTab('details')">Details</button>
+      <button class="panel-tab" data-tab="activity" onclick="switchTab('activity')">Activity</button>
+      <button class="panel-tab" data-tab="files" onclick="switchTab('files')">Files</button>
+      <button class="panel-tab" data-tab="discovery" onclick="switchTab('discovery')">Discovery</button>
+      <button class="panel-tab" data-tab="invoices" onclick="switchTab('invoices')">Invoices</button>
+    </div>
+
+    <div class="panel-body">
+
+      <!-- Details tab -->
+      <div class="tab-pane active" id="tab-details">
+        <div class="panel-section">
+          <div class="panel-section-title">Client Info</div>
+          <div class="pfield-row">
+            <div class="pfield">
+              <label>Full name</label>
+              <input type="text" id="p-name" oninput="queueSave()">
+            </div>
+            <div class="pfield">
+              <label>Business name</label>
+              <input type="text" id="p-business" oninput="queueSave()">
+            </div>
+          </div>
+          <div class="pfield-row">
+            <div class="pfield">
+              <label>Email</label>
+              <input type="email" id="p-email" oninput="queueSave()">
+            </div>
+            <div class="pfield">
+              <label>Phone</label>
+              <input type="tel" id="p-phone" oninput="queueSave()">
+            </div>
+          </div>
+        </div>
+
+        <div class="panel-section">
+          <div class="panel-section-title">Project</div>
+          <div class="pfield-row">
+            <div class="pfield">
+              <label>Status</label>
+              <select id="p-status" onchange="saveStatus()">
+                <option value="lead">Lead</option>
+                <option value="contacted">Contacted</option>
+                <option value="quoted">Quoted</option>
+                <option value="agreement_sent">Agreement Sent</option>
+                <option value="deposit_paid">Deposit Paid</option>
+                <option value="in_progress">In Progress</option>
+                <option value="review">Review</option>
+                <option value="revision">Revision</option>
+                <option value="final_payment">Final Payment</option>
+                <option value="complete">Complete</option>
+                <option value="lost">Lost</option>
+              </select>
+            </div>
+            <div class="pfield">
+              <label>Package</label>
+              <select id="p-pkg" onchange="queueSave()">
+                <option value="">— none —</option>
+                <option value="Basic">Basic — $500</option>
+                <option value="Upgraded">Upgraded — $750</option>
+              </select>
+            </div>
+          </div>
+          <div class="pfield-row">
+            <div class="pfield">
+              <label>Price (CAD)</label>
+              <input type="number" id="p-price" min="0" step="0.01" oninput="queueSave()">
+            </div>
+            <div class="pfield">
+              <label>Agreement</label>
+              <div style="padding-top:6px" id="p-agreement-badge"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel-section">
+          <div class="panel-section-title">URLs</div>
+          <div class="pfield">
+            <label>Preview URL</label>
+            <input type="url" id="p-preview-url" placeholder="https://..." oninput="queueSave()">
+          </div>
+          <div class="pfield">
+            <label>Live URL</label>
+            <input type="url" id="p-live-url" placeholder="https://..." oninput="queueSave()">
+          </div>
+        </div>
+
+        <div class="panel-section">
+          <div class="panel-section-title">Notes <span class="save-indicator" id="notes-saved">Saved</span></div>
+          <div class="pfield">
+            <textarea id="p-notes" rows="4" placeholder="Internal notes…" oninput="queueSave()"></textarea>
+          </div>
+        </div>
+      </div>
+
+      <!-- Activity tab -->
+      <div class="tab-pane" id="tab-activity">
+        <div class="panel-section">
+          <div class="timeline" id="panel-timeline">
+            <div class="panel-empty">Loading…</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Files tab -->
+      <div class="tab-pane" id="tab-files">
+        <div class="panel-section">
+          <div id="panel-files"><div class="panel-empty">Loading…</div></div>
+        </div>
+      </div>
+
+      <!-- Discovery tab -->
+      <div class="tab-pane" id="tab-discovery">
+        <div class="panel-section">
+          <div id="panel-discovery"><div class="panel-empty">Loading…</div></div>
+        </div>
+      </div>
+
+      <!-- Invoices tab -->
+      <div class="tab-pane" id="tab-invoices">
+        <div class="panel-section">
+          <div id="panel-invoices"><div class="panel-empty">Loading…</div></div>
+        </div>
+      </div>
+
+    </div><!-- /panel-body -->
+
+    <div class="panel-actions">
+      <button class="btn-panel-primary" id="btn-send-portal" onclick="sendPortalLink()">
+        Send Portal Link
+      </button>
+      <button class="btn-panel-ghost" id="btn-save-panel" onclick="savePanel()">
+        Save
+      </button>
+    </div>
+  </div>
+
+  <!-- ── NEW CLIENT MODAL ── -->
+  <div class="modal-overlay" id="modal-overlay" onclick="handleOverlayClick(event)">
+    <div class="modal">
+      <button class="modal-close" onclick="closeModal()" aria-label="Close">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+      <div class="modal-eyebrow">Approve Lead</div>
+      <h2 class="modal-title">Send agreement</h2>
+
+      <form id="create-form" onsubmit="handleCreate(event)">
+        <div class="form-row">
+          <div class="field">
+            <label for="c-name">Full name *</label>
+            <input type="text" id="c-name" placeholder="Jane Smith" required>
+          </div>
+          <div class="field">
+            <label for="c-email">Email *</label>
+            <input type="email" id="c-email" placeholder="jane@example.com" required>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="field">
+            <label for="c-phone">Phone</label>
+            <input type="tel" id="c-phone" placeholder="709-555-0100">
+          </div>
+          <div class="field">
+            <label for="c-pkg">Package</label>
+            <select id="c-pkg">
+              <option value="">— select —</option>
+              <option value="Basic">Basic — $500</option>
+              <option value="Upgraded">Upgraded — $750</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="field">
+            <label for="c-business">Business name</label>
+            <input type="text" id="c-business" placeholder="Smith Electric Ltd.">
+          </div>
+          <div class="field">
+            <label for="c-price">Project price (CAD) *</label>
+            <input type="number" id="c-price" placeholder="500" min="1" step="0.01" required>
+          </div>
+        </div>
+        <div class="form-row full">
+          <div class="field">
+            <label for="c-deliverables">Deliverables / scope notes</label>
+            <textarea id="c-deliverables" rows="2" placeholder="Single-page website, contact form, Google Maps embed…" style="width:100%;background:var(--dark);border:1px solid var(--dark-border);border-radius:7px;padding:10px 14px;color:var(--white);font-family:var(--font-body);font-size:0.875rem;resize:vertical;"></textarea>
+          </div>
+        </div>
+        <button type="submit" class="btn-primary" id="btn-create">
+          <span id="btn-create-text">Approve &amp; Send Agreement</span>
+          <div class="spinner" id="create-spinner"></div>
+        </button>
+      </form>
+
+      <div class="status-msg" id="create-status"></div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+  <script>
+    const SUPABASE_URL  = 'https://tnytkvmfswpupxtlnaad.supabase.co';
+    const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRueXRrdm1mc3dwdXB4dGxuYWFkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM1MTEzMjIsImV4cCI6MjA4OTA4NzMyMn0.P6PLx5bpu5ep75snwermVglH1Y459fL6bLEj6o2tAYY';
+    const FN_URL        = '/.netlify/functions/approve-lead';
+
+    const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
+
+    const COLUMNS = [
+      { status: 'lead',            label: 'Lead' },
+      { status: 'contacted',       label: 'Contacted' },
+      { status: 'quoted',          label: 'Quoted' },
+      { status: 'agreement_sent',  label: 'Agreement Sent' },
+      { status: 'deposit_paid',    label: 'Deposit Paid' },
+      { status: 'in_progress',     label: 'In Progress' },
+      { status: 'review',          label: 'Review' },
+      { status: 'revision',        label: 'Revision' },
+      { status: 'final_payment',   label: 'Final Payment' },
+      { status: 'complete',        label: 'Complete' },
+      { status: 'lost',            label: 'Lost' },
+    ];
+
+    const PKG_LABEL  = { basic: 'Basic', upgraded: 'Upgraded', Basic: 'Basic', Upgraded: 'Upgraded' };
+    const PKG_AMOUNT = { basic: '$500', upgraded: '$750', Basic: '$500', Upgraded: '$750' };
+
+    let clients = [];
+    let draggedId = null;
+    let session = null;
+
+    // ── INIT ──────────────────────────────────────────────────────────────────
+    (async () => {
+      const { data: { session: s } } = await sb.auth.getSession();
+      if (!s) {
+        document.getElementById('view-loading').style.display = 'none';
+        document.getElementById('view-login-prompt').style.display = 'flex';
+        return;
+      }
+      session = s;
+      document.getElementById('nav-user-email').textContent = s.user.email;
+      document.getElementById('btn-logout').style.display    = 'inline-flex';
+      document.getElementById('btn-open-modal').style.display = 'inline-flex';
+
+      sb.auth.onAuthStateChange((_e, s2) => {
+        session = s2;
+        if (!s2) window.location.href = '/admin';
+      });
+
+      await loadBoard();
+    })();
+
+    // ── LOAD ──────────────────────────────────────────────────────────────────
+    async function loadBoard() {
+      document.getElementById('view-loading').style.display = 'flex';
+      document.getElementById('view-board').style.display   = 'none';
+
+      const { data, error } = await sb
+        .from('clients')
+        .select('id, name, business_name, email, phone, package, price, status, agreement_status, stage_updated_at, created_at, notes, preview_url, live_url, portal_token')
+        .order('stage_updated_at', { ascending: true });
+
+      if (error) {
+        console.error('Failed to load clients:', error);
+        document.getElementById('view-loading').textContent = 'Failed to load clients.';
+        return;
+      }
+
+      clients = data || [];
+      renderBoard();
+
+      document.getElementById('view-loading').style.display = 'none';
+      document.getElementById('view-board').style.display   = 'block';
+    }
+
+    // ── RENDER BOARD ──────────────────────────────────────────────────────────
+    function renderBoard() {
+      const board = document.getElementById('board');
+      board.innerHTML = '';
+
+      COLUMNS.forEach(({ status, label }) => {
+        const colClients = clients.filter(c => c.status === status);
+        const col = document.createElement('div');
+        col.className = 'col';
+        col.dataset.status = status;
+
+        col.innerHTML = `
+          <div class="col-header">
+            <span class="col-title">${label}</span>
+            <span class="col-count" id="count-${status}">${colClients.length}</span>
+          </div>
+          <div class="col-body" id="col-${status}"></div>
+        `;
+        board.appendChild(col);
+
+        const body = col.querySelector('.col-body');
+        setupDropZone(body, status);
+
+        if (colClients.length === 0) {
+          body.innerHTML = '<div class="col-empty">—</div>';
+        } else {
+          colClients.forEach(c => body.appendChild(makeCard(c)));
+        }
+      });
+    }
+
+    // ── MAKE CARD ─────────────────────────────────────────────────────────────
+    function makeCard(client) {
+      const card = document.createElement('div');
+      card.className = 'client-card';
+      card.draggable = true;
+      card.dataset.id = client.id;
+
+      const business = client.business_name || client.name || '—';
+      const name     = client.business_name ? client.name : '';
+      const pkg      = PKG_LABEL[client.package]  || '';
+      const amount   = PKG_AMOUNT[client.package] || '—';
+      const days     = daysSince(client.stage_updated_at || client.created_at);
+      const daysClass = days >= 7 ? 'days-alert' : days >= 3 ? 'days-warn' : '';
+
+      card.innerHTML = `
+        <div class="card-business" title="${business}">${business}</div>
+        ${name ? `<div class="card-name">${name}</div>` : ''}
+        <div class="card-meta">
+          ${pkg ? `<span class="card-pkg">${pkg}</span>` : '<span></span>'}
+          <span class="card-amount">${amount}</span>
+        </div>
+        <div class="card-days ${daysClass}">
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          ${days}d in stage
+        </div>
+      `;
+
+      let cardWasDragging = false;
+      card.addEventListener('dragstart', () => { cardWasDragging = true; });
+      card.addEventListener('click', () => {
+        if (cardWasDragging) { cardWasDragging = false; return; }
+        const full = clients.find(c => c.id === client.id);
+        if (full) openPanel(full);
+      });
+      card.addEventListener('dragstart', onDragStart);
+      card.addEventListener('dragend',   onDragEnd);
+
+      return card;
+    }
+
+    // ── DRAG & DROP ───────────────────────────────────────────────────────────
+    function onDragStart(e) {
+      draggedId = e.currentTarget.dataset.id;
+      e.currentTarget.classList.add('dragging');
+      e.dataTransfer.effectAllowed = 'move';
+    }
+
+    function onDragEnd(e) {
+      e.currentTarget.classList.remove('dragging');
+      draggedId = null;
+      document.querySelectorAll('.col-body').forEach(b => b.classList.remove('drag-over'));
+    }
+
+    function setupDropZone(el, status) {
+      el.addEventListener('dragover', e => {
+        e.preventDefault();
+        e.dataTransfer.dropEffect = 'move';
+        el.classList.add('drag-over');
+      });
+      el.addEventListener('dragleave', e => {
+        if (!el.contains(e.relatedTarget)) el.classList.remove('drag-over');
+      });
+      el.addEventListener('drop', e => {
+        e.preventDefault();
+        el.classList.remove('drag-over');
+        if (draggedId) moveCard(draggedId, status);
+      });
+    }
+
+    async function moveCard(clientId, newStatus) {
+      const client = clients.find(c => c.id === clientId);
+      if (!client || client.status === newStatus) return;
+
+      const oldStatus = client.status;
+      const now = new Date().toISOString();
+
+      // Optimistic update
+      client.status = newStatus;
+      client.stage_updated_at = now;
+      renderBoard();
+
+      // Persist to Supabase
+      const { error } = await sb
+        .from('clients')
+        .update({ status: newStatus, stage_updated_at: now })
+        .eq('id', clientId);
+
+      if (error) {
+        console.error('Failed to update status:', error);
+        // Revert
+        client.status = oldStatus;
+        renderBoard();
+        return;
+      }
+
+      // Log to activity_log
+      await sb.from('activity_log').insert({
+        client_id:   clientId,
+        event_type:  'status_changed',
+        description: `Status changed from ${oldStatus} to ${newStatus}`,
+      });
+    }
+
+    // ── LOGOUT ────────────────────────────────────────────────────────────────
+    async function handleLogout() {
+      await sb.auth.signOut();
+      window.location.href = '/admin';
+    }
+
+    // ── MODAL ─────────────────────────────────────────────────────────────────
+    function openModal() {
+      document.getElementById('modal-overlay').classList.add('open');
+      document.getElementById('create-status').style.display = 'none';
+      document.getElementById('create-form').reset();
+    }
+
+    function closeModal() {
+      document.getElementById('modal-overlay').classList.remove('open');
+    }
+
+    function handleOverlayClick(e) {
+      if (e.target === document.getElementById('modal-overlay')) closeModal();
+    }
+
+    // ── CREATE CLIENT ─────────────────────────────────────────────────────────
+    async function handleCreate(e) {
+      e.preventDefault();
+
+      const btn  = document.getElementById('btn-create');
+      const text = document.getElementById('btn-create-text');
+      const spin = document.getElementById('create-spinner');
+
+      btn.disabled       = true;
+      spin.style.display = 'block';
+      text.textContent   = 'Creating…';
+
+      const { data: { session: s } } = await sb.auth.getSession();
+      if (!s) {
+        showStatus('create-status', 'error', 'Session expired. Please sign in again.');
+        btn.disabled = false; spin.style.display = 'none'; text.textContent = 'Create Client';
+        return;
+      }
+
+      const payload = {
+        name:          document.getElementById('c-name').value.trim(),
+        email:         document.getElementById('c-email').value.trim(),
+        phone:         document.getElementById('c-phone').value.trim() || null,
+        business_name: document.getElementById('c-business').value.trim() || null,
+        package:       document.getElementById('c-pkg').value || null,
+        price:         parseFloat(document.getElementById('c-price').value),
+        deliverables:  document.getElementById('c-deliverables').value.trim() || null,
+      };
+
+      try {
+        const res  = await fetch(FN_URL, {
+          method: 'POST',
+          headers: {
+            'Content-Type':  'application/json',
+            'Authorization': `Bearer ${s.access_token}`,
+          },
+          body: JSON.stringify(payload),
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || `Error ${res.status}`);
+
+        showStatus('create-status', 'success', `Agreement sent to ${payload.email}`);
+        document.getElementById('create-form').reset();
+
+        // Add new card to Agreement Sent column
+        const newClient = {
+          id:               data.client_id,
+          name:             payload.name,
+          business_name:    payload.business_name,
+          package:          payload.package,
+          status:           'agreement_sent',
+          stage_updated_at: new Date().toISOString(),
+          created_at:       new Date().toISOString(),
+        };
+        clients.push(newClient);
+        renderBoard();
+
+      } catch (err) {
+        showStatus('create-status', 'error', err.message);
+      } finally {
+        btn.disabled       = false;
+        spin.style.display = 'none';
+        text.textContent   = 'Approve & Send Agreement';
+      }
+    }
+
+    // ── HELPERS ───────────────────────────────────────────────────────────────
+    function daysSince(iso) {
+      const diff = Date.now() - new Date(iso).getTime();
+      return Math.floor(diff / 86400000);
+    }
+
+    function showStatus(id, type, msg) {
+      const el = document.getElementById(id);
+      el.className     = `status-msg ${type}`;
+      el.textContent   = msg;
+      el.style.display = 'block';
+    }
+
+    // ── DETAIL PANEL ──────────────────────────────────────────────────────────
+    let panelClientId  = null;
+    let saveTimer      = null;
+
+    function openPanel(client) {
+      panelClientId = client.id;
+      switchTab('details');
+
+      // Header
+      document.getElementById('panel-business').textContent = client.business_name || client.name || '—';
+      document.getElementById('panel-contact').textContent  = [client.name, client.email].filter(Boolean).join(' · ');
+
+      // Detail fields
+      document.getElementById('p-name').value     = client.name          || '';
+      document.getElementById('p-business').value = client.business_name || '';
+      document.getElementById('p-email').value    = client.email         || '';
+      document.getElementById('p-phone').value    = client.phone         || '';
+      document.getElementById('p-status').value   = client.status        || 'lead';
+      document.getElementById('p-pkg').value      = client.package       || '';
+      document.getElementById('p-price').value    = client.price         || '';
+      document.getElementById('p-preview-url').value = client.preview_url || '';
+      document.getElementById('p-live-url').value    = client.live_url    || '';
+      document.getElementById('p-notes').value       = client.notes       || '';
+
+      const ag = client.agreement_status || 'none';
+      const agLabels = { pending: 'Pending', agreed: 'Agreed', declined: 'Declined', none: 'None' };
+      document.getElementById('p-agreement-badge').innerHTML =
+        `<span class="agreement-badge ${ag}">${agLabels[ag] || ag}</span>`;
+
+      document.getElementById('notes-saved').classList.remove('show');
+
+      document.getElementById('panel-overlay').classList.add('open');
+      document.getElementById('detail-panel').classList.add('open');
+
+      // Load async tabs
+      loadActivity();
+      loadFiles();
+      loadDiscovery();
+      loadInvoices();
+    }
+
+    function closePanel() {
+      document.getElementById('panel-overlay').classList.remove('open');
+      document.getElementById('detail-panel').classList.remove('open');
+      panelClientId = null;
+      clearTimeout(saveTimer);
+    }
+
+    function handlePanelOverlay(e) {
+      if (e.target === document.getElementById('panel-overlay')) closePanel();
+    }
+
+    function switchTab(name) {
+      document.querySelectorAll('.panel-tab').forEach(t => t.classList.toggle('active', t.dataset.tab === name));
+      document.querySelectorAll('.tab-pane').forEach(p => p.classList.toggle('active', p.id === `tab-${name}`));
+    }
+
+    // ── SAVE HELPERS ──────────────────────────────────────────────────────────
+    function queueSave() {
+      clearTimeout(saveTimer);
+      saveTimer = setTimeout(savePanel, 1200);
+    }
+
+    async function savePanel() {
+      if (!panelClientId) return;
+      clearTimeout(saveTimer);
+
+      const payload = {
+        name:          document.getElementById('p-name').value.trim()     || null,
+        business_name: document.getElementById('p-business').value.trim() || null,
+        email:         document.getElementById('p-email').value.trim()    || null,
+        phone:         document.getElementById('p-phone').value.trim()    || null,
+        package:       document.getElementById('p-pkg').value             || null,
+        price:         parseFloat(document.getElementById('p-price').value) || null,
+        preview_url:   document.getElementById('p-preview-url').value.trim() || null,
+        live_url:      document.getElementById('p-live-url').value.trim()    || null,
+        notes:         document.getElementById('p-notes').value              || null,
+      };
+
+      const { error } = await sb.from('clients').update(payload).eq('id', panelClientId);
+      if (!error) {
+        // Update local cache
+        const c = clients.find(x => x.id === panelClientId);
+        if (c) Object.assign(c, payload);
+
+        const ind = document.getElementById('notes-saved');
+        ind.classList.add('show');
+        setTimeout(() => ind.classList.remove('show'), 2000);
+      }
+    }
+
+    async function saveStatus() {
+      if (!panelClientId) return;
+      const newStatus = document.getElementById('p-status').value;
+      await moveCard(panelClientId, newStatus);
+    }
+
+    // ── ASYNC TAB LOADERS ─────────────────────────────────────────────────────
+    async function loadActivity() {
+      const el = document.getElementById('panel-timeline');
+      el.innerHTML = '<div class="panel-empty">Loading…</div>';
+
+      const { data, error } = await sb
+        .from('activity_log')
+        .select('event_type, description, created_at, performed_by')
+        .eq('client_id', panelClientId)
+        .order('created_at', { ascending: false })
+        .limit(40);
+
+      if (error || !data.length) {
+        el.innerHTML = '<div class="panel-empty">No activity yet.</div>';
+        return;
+      }
+
+      el.innerHTML = data.map((e, i) => `
+        <div class="tl-item">
+          <div class="tl-dot ${i === 0 ? 'accent' : ''}"></div>
+          <div class="tl-content">
+            <div class="tl-desc">${e.description || e.event_type}</div>
+            <div class="tl-time">${fmtDate(e.created_at)}${e.performed_by ? ' · ' + e.performed_by : ''}</div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    async function loadFiles() {
+      const el = document.getElementById('panel-files');
+      el.innerHTML = '<div class="panel-empty">Loading…</div>';
+
+      const { data: { session: s } } = await sb.auth.getSession();
+      if (!s) { el.innerHTML = '<div class="panel-empty">Not authenticated.</div>'; return; }
+
+      const res = await fetch(
+        `/.netlify/functions/get-client-files?client_id=${panelClientId}`,
+        { headers: { Authorization: `Bearer ${s.access_token}` } }
+      );
+      if (!res.ok) { el.innerHTML = '<div class="panel-empty">Failed to load files.</div>'; return; }
+      const { files } = await res.json();
+
+      if (!files.length) {
+        el.innerHTML = '<div class="panel-empty">No files uploaded yet.</div>';
+        return;
+      }
+
+      el.innerHTML = files.map(f => {
+        const kb = f.size_bytes ? `${(f.size_bytes/1024).toFixed(0)} KB` : '';
+        return `
+          <div class="file-row">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><polyline points="13 2 13 9 20 9"/></svg>
+            <span title="${f.file_name}">${f.file_name}${kb ? ' <span style="color:var(--text-muted);font-size:0.72rem">(' + kb + ')</span>' : ''}</span>
+            ${f.signed_url ? `<a href="${f.signed_url}" target="_blank" rel="noopener">Download</a>` : ''}
+          </div>`;
+      }).join('');
+    }
+
+    async function loadDiscovery() {
+      const el = document.getElementById('panel-discovery');
+      el.innerHTML = '<div class="panel-empty">Loading…</div>';
+
+      const { data, error } = await sb
+        .from('discovery_responses')
+        .select('question_key, answer')
+        .eq('client_id', panelClientId);
+
+      if (error || !data.length) {
+        el.innerHTML = '<div class="panel-empty">No discovery responses yet.</div>';
+        return;
+      }
+
+      const labels = {
+        brand_colors: 'Brand Colours',
+        brand_fonts:  'Fonts',
+        brand_notes:  'Additional Notes',
+      };
+
+      el.innerHTML = data.map(r => `
+        <div class="disc-row">
+          <div class="disc-q">${labels[r.question_key] || r.question_key}</div>
+          <div class="disc-a">${r.answer}</div>
+        </div>`).join('');
+    }
+
+    async function loadInvoices() {
+      const el = document.getElementById('panel-invoices');
+      el.innerHTML = '<div class="panel-empty">Loading…</div>';
+
+      const { data, error } = await sb
+        .from('invoices')
+        .select('description, amount, type, status, created_at')
+        .eq('client_id', panelClientId)
+        .order('created_at', { ascending: false });
+
+      if (error || !data.length) {
+        el.innerHTML = '<div class="panel-empty">No invoices yet.</div>';
+        return;
+      }
+
+      el.innerHTML = data.map(inv => `
+        <div class="invoice-row">
+          <div>
+            <div class="invoice-label">${inv.description || inv.type}</div>
+            <div style="font-size:0.72rem;color:var(--text-muted);margin-top:2px">${fmtDate(inv.created_at)}</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px">
+            <span class="invoice-amount">$${parseFloat(inv.amount).toFixed(2)}</span>
+            <span class="invoice-status ${inv.status === 'paid' ? 'paid' : 'pending'}">${inv.status}</span>
+          </div>
+        </div>`).join('');
+    }
+
+    // ── SEND PORTAL LINK ──────────────────────────────────────────────────────
+    async function sendPortalLink() {
+      const btn = document.getElementById('btn-send-portal');
+      btn.disabled = true;
+      btn.textContent = 'Sending…';
+
+      const client = clients.find(c => c.id === panelClientId);
+      if (!client) { btn.disabled = false; btn.textContent = 'Send Portal Link'; return; }
+
+      const { data: { session: s } } = await sb.auth.getSession();
+      if (!s) { btn.disabled = false; btn.textContent = 'Send Portal Link'; return; }
+
+      try {
+        const res = await fetch('/.netlify/functions/send-portal-link', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${s.access_token}` },
+          body: JSON.stringify({ client_id: panelClientId }),
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || 'Failed');
+        btn.textContent = 'Sent!';
+        setTimeout(() => { btn.disabled = false; btn.textContent = 'Send Portal Link'; }, 3000);
+      } catch (err) {
+        btn.disabled = false;
+        btn.textContent = 'Send Portal Link';
+        alert('Failed to send: ' + err.message);
+      }
+    }
+
+    // ── DATE FORMAT ───────────────────────────────────────────────────────────
+    function fmtDate(iso) {
+      if (!iso) return '';
+      const d = new Date(iso);
+      return d.toLocaleDateString('en-CA', { month: 'short', day: 'numeric', year: 'numeric' }) +
+        ' ' + d.toLocaleTimeString('en-CA', { hour: '2-digit', minute: '2-digit' });
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin — Blatant Engagement</title>
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --hero-bg:     #120e0b;
+      --dark:        #1a1512;
+      --dark-2:      #231c17;
+      --dark-border: #312620;
+      --accent:      #c05a28;
+      --accent-h:    #9d4820;
+      --white:       #ffffff;
+      --warm-border: #e4d9cc;
+      --text-muted:  #a09080;
+      --error:       #b91c1c;
+      --font-display: 'Plus Jakarta Sans', sans-serif;
+      --font-body:    'Inter', sans-serif;
+    }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--hero-bg);
+      color: var(--white);
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+      padding: 18px 32px;
+      border-bottom: 1px solid var(--dark-border);
+      background: rgba(18,14,11,0.95);
+    }
+
+    .nav-logo {
+      font-family: var(--font-display);
+      font-weight: 900;
+      font-size: 1.1rem;
+      color: var(--white);
+      text-decoration: none;
+      letter-spacing: -0.025em;
+    }
+    .nav-logo span { color: var(--accent); }
+
+    main {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 48px 24px 80px;
+      min-height: calc(100vh - 62px);
+    }
+
+    .card {
+      background: var(--dark-2);
+      border: 1px solid var(--dark-border);
+      border-radius: 14px;
+      padding: 40px;
+      width: 100%;
+      max-width: 420px;
+    }
+
+    .card-eyebrow {
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .card-eyebrow::before {
+      content: '';
+      display: block;
+      width: 20px;
+      height: 1px;
+      background: var(--accent);
+    }
+
+    .card-title {
+      font-family: var(--font-display);
+      font-size: 1.6rem;
+      font-weight: 800;
+      letter-spacing: -0.025em;
+      color: var(--white);
+      margin-bottom: 8px;
+    }
+
+    .card-sub {
+      font-size: 0.875rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+      margin-bottom: 28px;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-bottom: 16px;
+    }
+
+    label {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: rgba(255,255,255,0.7);
+    }
+
+    input {
+      background: var(--dark);
+      border: 1px solid var(--dark-border);
+      border-radius: 8px;
+      padding: 11px 14px;
+      font-family: var(--font-body);
+      font-size: 0.9rem;
+      color: var(--white);
+      outline: none;
+      transition: border-color 0.15s;
+      width: 100%;
+    }
+    input::placeholder { color: var(--text-muted); }
+    input:focus { border-color: var(--accent); }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      background: var(--accent);
+      color: var(--white);
+      border: none;
+      padding: 13px 28px;
+      border-radius: 7px;
+      font-family: var(--font-display);
+      font-size: 0.9rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.15s, transform 0.1s;
+      width: 100%;
+      margin-top: 4px;
+    }
+    .btn-primary:hover:not(:disabled) { background: var(--accent-h); transform: translateY(-1px); }
+    .btn-primary:disabled { opacity: 0.55; cursor: not-allowed; transform: none; }
+
+    .status-msg {
+      display: none;
+      border-radius: 8px;
+      padding: 12px 16px;
+      font-size: 0.85rem;
+      line-height: 1.5;
+      margin-top: 16px;
+    }
+    .status-msg.success { background: rgba(61,140,94,0.15); border: 1px solid rgba(61,140,94,0.3); color: #6ee7a7; }
+    .status-msg.error   { background: rgba(185,28,28,0.15); border: 1px solid rgba(185,28,28,0.3); color: #fca5a5; }
+
+    .spinner {
+      width: 16px; height: 16px;
+      border: 2px solid rgba(255,255,255,0.3);
+      border-top-color: var(--white);
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+      display: none;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    @media (max-width: 540px) {
+      .card { padding: 28px 20px; }
+      nav { padding: 14px 20px; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="/" class="nav-logo">Blatant<span>.</span></a>
+  </nav>
+
+  <main>
+    <div class="card">
+      <div class="card-eyebrow">Admin</div>
+      <h1 class="card-title">Sign in</h1>
+      <p class="card-sub">Enter your email to receive a sign-in link.</p>
+
+      <form id="login-form" onsubmit="handleLogin(event)">
+        <div class="field">
+          <label for="login-email">Email address</label>
+          <input type="email" id="login-email" placeholder="you@example.com" required autocomplete="email">
+        </div>
+        <button type="submit" class="btn-primary" id="btn-login">
+          <span id="btn-login-text">Send Link</span>
+          <div class="spinner" id="login-spinner"></div>
+        </button>
+      </form>
+
+      <div class="status-msg" id="login-status"></div>
+    </div>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+  <script>
+    const SUPABASE_URL  = 'https://tnytkvmfswpupxtlnaad.supabase.co';
+    const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRueXRrdm1mc3dwdXB4dGxuYWFkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM1MTEzMjIsImV4cCI6MjA4OTA4NzMyMn0.P6PLx5bpu5ep75snwermVglH1Y459fL6bLEj6o2tAYY';
+
+    const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
+
+    // If already authenticated, go straight to pipeline
+    (async () => {
+      const { data: { session } } = await sb.auth.getSession();
+      if (session) {
+        window.location.replace('/admin/pipeline/');
+        return;
+      }
+
+      // Handle magic link redirect
+      sb.auth.onAuthStateChange((_event, session) => {
+        if (session) {
+          history.replaceState(null, '', window.location.pathname);
+          window.location.replace('/admin/pipeline/');
+        }
+      });
+    })();
+
+    async function handleLogin(e) {
+      e.preventDefault();
+      const email  = document.getElementById('login-email').value.trim();
+      const btn    = document.getElementById('btn-login');
+      const text   = document.getElementById('btn-login-text');
+      const spin   = document.getElementById('login-spinner');
+      const status = document.getElementById('login-status');
+
+      btn.disabled         = true;
+      spin.style.display   = 'block';
+      text.textContent     = 'Sending…';
+      status.style.display = 'none';
+
+      const { error } = await sb.auth.signInWithOtp({
+        email,
+        options: { emailRedirectTo: window.location.origin + '/admin' },
+      });
+
+      btn.disabled       = false;
+      spin.style.display = 'none';
+      text.textContent   = 'Send Link';
+
+      if (error) {
+        const el = document.getElementById('login-status');
+        el.className = 'status-msg error';
+        el.textContent = error.message;
+        el.style.display = 'block';
+      } else {
+        const el = document.getElementById('login-status');
+        el.className = 'status-msg success';
+        el.textContent = 'Link sent. Check your email.';
+        el.style.display = 'block';
+      }
+    }
+  </script>
+</body>
+</html>

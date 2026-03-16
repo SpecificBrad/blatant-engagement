@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your Project — Blatant Engagement</title>
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --hero-bg: #120e0b; --dark: #1a1512; --dark-2: #231c17; --dark-border: #312620;
+      --accent: #c05a28; --accent-h: #9d4820;
+      --white: #ffffff; --warm-white: #fdfaf7; --warm-cream: #f3ece0; --warm-border: #e4d9cc;
+      --text: #1c1915; --text-light: #6b5f54; --text-muted: #a09080;
+      --success: #3d8c5e; --danger: #c0392b;
+      --font-display: 'Plus Jakarta Sans', sans-serif; --font-body: 'Inter', sans-serif;
+      --max-w: 640px;
+    }
+    body { font-family: var(--font-body); background: var(--warm-cream); color: var(--text); min-height: 100vh; -webkit-font-smoothing: antialiased; }
+
+    nav { background: rgba(18,14,11,0.92); backdrop-filter: blur(14px); border-bottom: 1px solid rgba(255,255,255,0.05); padding: 0 24px; height: 60px; display: flex; align-items: center; position: sticky; top: 0; z-index: 100; }
+    .nav-inner { max-width: var(--max-w); margin: 0 auto; width: 100%; display: flex; align-items: center; }
+    .nav-logo { font-family: var(--font-display); font-weight: 900; font-size: 1.2rem; color: var(--white); text-decoration: none; letter-spacing: -0.02em; }
+    .nav-logo span { color: var(--accent); }
+
+    .progress-wrap { background: var(--warm-white); border-bottom: 1px solid var(--warm-border); padding: 20px 24px; }
+    .progress-inner { max-width: var(--max-w); margin: 0 auto; }
+    .steps { display: flex; align-items: center; }
+    .step { display: flex; align-items: center; flex: 1; }
+    .step-circle { width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: var(--font-display); font-size: 0.75rem; font-weight: 700; flex-shrink: 0; transition: all 0.2s; border: 2px solid var(--warm-border); color: var(--text-muted); background: var(--warm-white); }
+    .step-circle.active { border-color: var(--accent); color: var(--accent); }
+    .step-circle.done { border-color: var(--success); background: var(--success); color: white; }
+    .step-line { flex: 1; height: 2px; background: var(--warm-border); margin: 0 4px; }
+    .step-line.done { background: var(--success); }
+
+    main { padding: 40px 24px 80px; }
+    .card { max-width: var(--max-w); margin: 0 auto; background: var(--warm-white); border: 1px solid var(--warm-border); border-radius: 14px; padding: 40px 36px; }
+    @media (max-width: 480px) { .card { padding: 28px 20px; } }
+
+    .eyebrow { font-size: 0.72rem; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: var(--accent); margin-bottom: 10px; }
+    h1 { font-family: var(--font-display); font-size: clamp(1.5rem, 4vw, 2rem); font-weight: 800; letter-spacing: -0.025em; line-height: 1.14; margin-bottom: 12px; }
+    .subtitle { color: var(--text-light); line-height: 1.6; margin-bottom: 32px; }
+
+    .job-specs { background: var(--warm-cream); border: 1px solid var(--warm-border); border-radius: 10px; padding: 20px 24px; margin-bottom: 28px; }
+    .job-specs h3 { font-family: var(--font-display); font-weight: 700; font-size: 0.9rem; margin-bottom: 14px; color: var(--text); }
+    .spec-row { display: flex; justify-content: space-between; align-items: baseline; padding: 8px 0; border-bottom: 1px solid var(--warm-border); font-size: 0.9rem; }
+    .spec-row:last-child { border-bottom: none; }
+    .spec-label { color: var(--text-light); }
+    .spec-value { font-weight: 600; color: var(--text); text-align: right; }
+
+    .agreement-body { background: var(--warm-cream); border: 1px solid var(--warm-border); border-radius: 10px; padding: 24px; margin-bottom: 28px; font-size: 0.9rem; line-height: 1.7; color: var(--text-light); max-height: 320px; overflow-y: auto; }
+    .agreement-body h3 { font-family: var(--font-display); font-weight: 700; color: var(--text); margin-bottom: 8px; font-size: 0.95rem; }
+    .agreement-body h3:not(:first-child) { margin-top: 20px; }
+    .agreement-body p { margin-bottom: 10px; }
+    .agreement-body ul { padding-left: 18px; margin-bottom: 10px; }
+    .agreement-body ul li { margin-bottom: 4px; }
+
+    .btn-row { display: flex; gap: 12px; }
+    .btn { display: inline-flex; align-items: center; justify-content: center; font-family: var(--font-display); font-weight: 700; font-size: 0.95rem; border-radius: 7px; padding: 14px 28px; border: none; cursor: pointer; transition: all 0.15s; text-decoration: none; }
+    .btn-primary { background: var(--accent); color: white; flex: 1; }
+    .btn-primary:hover { background: var(--accent-h); transform: translateY(-1px); }
+    .btn-ghost { background: transparent; color: var(--text-light); border: 1px solid var(--warm-border); padding: 14px 20px; font-size: 0.875rem; flex-shrink: 0; }
+    .btn-ghost:hover { border-color: var(--danger); color: var(--danger); }
+    .btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+    .upload-zone { border: 2px dashed var(--warm-border); border-radius: 10px; padding: 32px; text-align: center; cursor: pointer; transition: all 0.2s; margin-bottom: 20px; }
+    .upload-zone:hover, .upload-zone.over { border-color: var(--accent); background: rgba(192,90,40,0.04); }
+    .upload-zone svg { display: block; margin: 0 auto 12px; }
+    .upload-zone p { font-size: 0.9rem; color: var(--text-light); }
+    .upload-zone strong { color: var(--text); }
+    #file-input { display: none; }
+    .file-item { display: flex; align-items: center; gap: 10px; padding: 10px 14px; background: var(--warm-cream); border-radius: 8px; margin-bottom: 8px; font-size: 0.875rem; }
+    .file-item span { flex: 1; color: var(--text); }
+    .file-item button { background: none; border: none; cursor: pointer; color: var(--text-muted); font-size: 1.1rem; line-height: 1; padding: 2px 6px; border-radius: 4px; }
+    .file-item button:hover { color: var(--danger); }
+
+    .field-group { margin-bottom: 20px; }
+    .field-group label { display: block; font-weight: 500; font-size: 0.875rem; margin-bottom: 6px; color: var(--text); }
+    .field-group input, .field-group textarea { width: 100%; background: white; border: 1px solid var(--warm-border); border-radius: 8px; padding: 12px 16px; font-size: 1rem; font-family: var(--font-body); color: var(--text); transition: border-color 0.15s; resize: vertical; }
+    .field-group input:focus, .field-group textarea:focus { outline: none; border-color: var(--accent); }
+
+    .check-wrap { width: 64px; height: 64px; border-radius: 50%; background: rgba(61,140,94,0.12); display: flex; align-items: center; justify-content: center; margin: 0 auto 24px; }
+    .confirm-center { text-align: center; }
+    .confirm-center .subtitle { max-width: 380px; margin: 0 auto; }
+
+    .status-msg { padding: 12px 16px; border-radius: 8px; font-size: 0.875rem; margin-top: 16px; display: none; }
+    .status-msg.error { background: rgba(192,57,43,0.08); color: var(--danger); display: block; }
+    .status-msg.info  { background: rgba(192,90,40,0.08); color: var(--accent); display: block; }
+
+    .hidden { display: none !important; }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="/" class="nav-logo">Blatant<span>.</span></a>
+  </div>
+</nav>
+
+<div class="progress-wrap" id="progress-bar">
+  <div class="progress-inner">
+    <div class="steps">
+      <div class="step"><div class="step-circle" id="sc-1">1</div></div>
+      <div class="step-line" id="sl-1"></div>
+      <div class="step"><div class="step-circle" id="sc-2">2</div></div>
+      <div class="step-line" id="sl-2"></div>
+      <div class="step"><div class="step-circle" id="sc-3">3</div></div>
+    </div>
+  </div>
+</div>
+
+<main>
+
+  <!-- Step 1: Agreement -->
+  <div class="card hidden" id="step-agreement">
+    <div class="eyebrow">Project Agreement</div>
+    <h1>Review your agreement.</h1>
+    <p class="subtitle">Please read the terms below. This covers scope, payment, and timelines for your project.</p>
+    <div class="job-specs"><h3>Project Summary</h3><div id="job-specs-rows"></div></div>
+    <div class="agreement-body" id="agreement-text"></div>
+    <div class="btn-row">
+      <button class="btn btn-primary" id="btn-agree">Agree &amp; Continue</button>
+      <button class="btn btn-ghost" id="btn-decline">Decline</button>
+    </div>
+    <div class="status-msg" id="agreement-status"></div>
+  </div>
+
+  <!-- Step 2: Stripe redirect holding screen -->
+  <div class="card hidden" id="step-payment">
+    <div class="eyebrow">Deposit Payment</div>
+    <h1>Redirecting to checkout…</h1>
+    <p class="subtitle">You're being redirected to our secure payment page.</p>
+    <div class="status-msg" id="payment-status"></div>
+  </div>
+
+  <!-- Step 3: Collateral upload -->
+  <div class="card hidden" id="step-collateral">
+    <div class="eyebrow">Brand Assets</div>
+    <h1>Upload your brand materials.</h1>
+    <p class="subtitle">Share what you have — logo, colours, fonts, anything that represents your brand. All fields are optional.</p>
+    <div class="upload-zone" id="upload-zone">
+      <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+      <p><strong>Drop files here</strong> or click to browse</p>
+      <p style="font-size:0.8rem;margin-top:4px;">Logo, brand guide, reference images — max 10MB each</p>
+    </div>
+    <input type="file" id="file-input" multiple accept="image/*,.pdf,.ai,.eps,.svg">
+    <div id="file-list"></div>
+    <div class="field-group">
+      <label>Brand colours (hex codes or descriptions)</label>
+      <input type="text" id="brand-colors" placeholder="e.g. #1a2b3c, navy blue, warm orange">
+    </div>
+    <div class="field-group">
+      <label>Preferred fonts (if any)</label>
+      <input type="text" id="brand-fonts" placeholder="e.g. Montserrat, Times New Roman">
+    </div>
+    <div class="field-group">
+      <label>Anything else we should know</label>
+      <textarea id="brand-notes" rows="3" placeholder="Style preferences, competitor sites you like, things to avoid…"></textarea>
+    </div>
+    <button class="btn btn-primary" id="btn-submit" style="width:100%">Submit &amp; Start Project</button>
+    <div class="status-msg" id="collateral-status"></div>
+  </div>
+
+  <!-- Step 4: Done -->
+  <div class="card hidden" id="step-done">
+    <div class="confirm-center">
+      <div class="check-wrap">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--success)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+      </div>
+      <div class="eyebrow">You're all set</div>
+      <h1>Project underway.</h1>
+      <p class="subtitle">Your 7-day development clock has started. Brad will be in touch within 24 hours to confirm next steps.</p>
+    </div>
+  </div>
+
+  <!-- Declined -->
+  <div class="card hidden" id="step-declined">
+    <div class="eyebrow">Agreement Declined</div>
+    <h1>No problem.</h1>
+    <p class="subtitle">Your response has been recorded. Brad will be in touch to discuss any concerns or adjustments to the proposal.</p>
+  </div>
+
+  <!-- Error -->
+  <div class="card hidden" id="step-error">
+    <div class="eyebrow">Something went wrong</div>
+    <h1>Link not recognised.</h1>
+    <p class="subtitle">This link may have expired or already been used. Reach out to Brad at <a href="mailto:hello@blatantengagement.com" style="color:var(--accent)">hello@blatantengagement.com</a>.</p>
+  </div>
+
+</main>
+
+<script>
+const SUPABASE_URL  = 'https://tnytkvmfswpupxtlnaad.supabase.co';
+const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRueXRrdm1mc3dwdXB4dGxuYWFkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM1MTEzMjIsImV4cCI6MjA4OTA4NzMyMn0.P6PLx5bpu5ep75snwermVglH1Y459fL6bLEj6o2tAYY';
+
+const pathParts   = window.location.pathname.split('/').filter(Boolean);
+const portalToken = pathParts[pathParts.length - 1];
+const urlParams   = new URLSearchParams(window.location.search);
+
+let clientData    = null;
+let agreementData = null;
+const pendingFiles = [];
+
+const STEPS = ['step-agreement','step-payment','step-collateral','step-done','step-declined','step-error'];
+function show(id) { STEPS.forEach(s => document.getElementById(s).classList.add('hidden')); document.getElementById(id).classList.remove('hidden'); }
+
+function svgCheck() { return `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>`; }
+
+function setProgress(active) {
+  [1,2,3].forEach(n => {
+    const c = document.getElementById(`sc-${n}`);
+    c.classList.remove('active','done');
+    if (n < active) { c.classList.add('done'); c.innerHTML = svgCheck(); }
+    else if (n === active) { c.classList.add('active'); c.innerHTML = n; }
+    else { c.innerHTML = n; }
+    if (n < 3) document.getElementById(`sl-${n}`).classList.toggle('done', n < active);
+  });
+}
+
+function hideProg() { document.getElementById('progress-bar').classList.add('hidden'); }
+
+async function loadClient() {
+  if (!portalToken || portalToken === 'index.html') { hideProg(); show('step-error'); return; }
+
+  const res = await fetch(
+    `${SUPABASE_URL}/rest/v1/clients?portal_token=eq.${portalToken}&select=id,name,business_name,email,package,price,agreement_status,deposit_paid_at,collateral_submitted_at`,
+    { headers: { apikey: SUPABASE_ANON, 'x-portal-token': portalToken } }
+  );
+  const rows = await res.json();
+  if (!rows.length) { hideProg(); show('step-error'); return; }
+  clientData = rows[0];
+
+  // Returning from Stripe
+  if (urlParams.get('step') === 'collateral' || (clientData.deposit_paid_at && !clientData.collateral_submitted_at)) {
+    setProgress(3); show('step-collateral'); return;
+  }
+  if (clientData.collateral_submitted_at) { hideProg(); show('step-done'); return; }
+  if (clientData.agreement_status === 'agreed' && clientData.deposit_paid_at) { setProgress(3); show('step-collateral'); return; }
+  if (clientData.agreement_status === 'declined') { hideProg(); show('step-declined'); return; }
+
+  // Load agreement
+  const agRes = await fetch(
+    `${SUPABASE_URL}/rest/v1/agreements?client_id=eq.${clientData.id}&status=eq.pending&select=id,job_specifics,title&limit=1`,
+    { headers: { apikey: SUPABASE_ANON, 'x-portal-token': portalToken } }
+  );
+  const ags = await agRes.json();
+  if (!ags.length) { hideProg(); show('step-error'); return; }
+  agreementData = ags[0];
+
+  const specs = agreementData.job_specifics || {};
+  document.getElementById('job-specs-rows').innerHTML = [
+    ['Business',  clientData.business_name || clientData.name],
+    ['Package',   specs.package  || clientData.package || '—'],
+    ['Price',     specs.price    ? `$${parseFloat(specs.price).toFixed(2)} CAD` : '—'],
+    ['Deposit',   specs.price    ? `$${(parseFloat(specs.price)*0.5).toFixed(2)} CAD (50%)` : '—'],
+    ['Scope',     specs.deliverables || 'Single-page website'],
+  ].map(([l,v]) => `<div class="spec-row"><span class="spec-label">${l}</span><span class="spec-value">${v}</span></div>`).join('');
+
+  document.getElementById('agreement-text').innerHTML = buildAgreement(specs, clientData);
+  setProgress(1); show('step-agreement');
+}
+
+function buildAgreement(specs, client) {
+  const price    = specs.price ? `$${parseFloat(specs.price).toFixed(2)}` : 'as quoted';
+  const deposit  = specs.price ? `$${(parseFloat(specs.price)*0.5).toFixed(2)}` : '50%';
+  const biz      = client.business_name || client.name;
+  const scope    = specs.deliverables   || 'Single-page website as discussed.';
+  const date     = new Date().toLocaleDateString('en-CA', {year:'numeric',month:'long',day:'numeric'});
+  return `
+    <h3>Parties</h3><p>This agreement is between <strong>Blatant Engagement</strong> ("the Developer") and <strong>${biz}</strong> ("the Client"), effective ${date}.</p>
+    <h3>Scope of Work</h3><p>${scope}</p><ul><li>One round of revisions included</li><li>Mobile-responsive design</li><li>Contact form with email notification</li><li>Delivery within 7 business days of deposit receipt and asset submission</li></ul>
+    <h3>Payment</h3><p>Total: <strong>${price} CAD</strong></p><ul><li>Deposit of <strong>${deposit} CAD (50%)</strong> due before work begins</li><li>Remaining balance due upon completion, before final delivery</li></ul>
+    <h3>Revisions</h3><p>One round of revisions included. Additional rounds at $75/hour.</p>
+    <h3>Client Responsibilities</h3><p>Client agrees to provide all required brand assets, copy, and feedback in a timely manner. Delays may extend the delivery timeline accordingly.</p>
+    <h3>Ownership</h3><p>Upon receipt of final payment, the Client owns all delivered work. The Developer retains the right to display the project in their portfolio.</p>
+    <h3>Cancellation</h3><p>The deposit is non-refundable once work has commenced.</p>`;
+}
+
+// Agree
+document.getElementById('btn-agree').addEventListener('click', async () => {
+  const btn = document.getElementById('btn-agree');
+  const msg = document.getElementById('agreement-status');
+  btn.disabled = true; btn.textContent = 'Processing…';
+  const res  = await fetch('/.netlify/functions/agree-agreement', { method:'POST', headers:{'Content-Type':'application/json','x-portal-token':portalToken}, body:'{}' });
+  const data = await res.json();
+  if (!res.ok) { msg.textContent = data.error || 'Something went wrong.'; msg.className='status-msg error'; btn.disabled=false; btn.textContent='Agree & Continue'; return; }
+  msg.textContent = 'Redirecting to payment…'; msg.className = 'status-msg info';
+  window.location.href = data.checkout_url;
+});
+
+// Decline
+document.getElementById('btn-decline').addEventListener('click', async () => {
+  if (!confirm('Are you sure you want to decline? Brad will be notified to follow up.')) return;
+  document.getElementById('btn-decline').disabled = true;
+  await fetch('/.netlify/functions/decline-agreement', { method:'POST', headers:{'Content-Type':'application/json','x-portal-token':portalToken}, body:'{}' });
+  hideProg(); show('step-declined');
+});
+
+// File upload
+const zone = document.getElementById('upload-zone');
+const inp  = document.getElementById('file-input');
+zone.addEventListener('click', () => inp.click());
+zone.addEventListener('dragover',  e => { e.preventDefault(); zone.classList.add('over'); });
+zone.addEventListener('dragleave', () => zone.classList.remove('over'));
+zone.addEventListener('drop', e => { e.preventDefault(); zone.classList.remove('over'); addFiles(e.dataTransfer.files); });
+inp.addEventListener('change', () => addFiles(inp.files));
+
+function addFiles(files) {
+  Array.from(files).forEach(f => {
+    if (f.size > 10*1024*1024) { alert(`${f.name} exceeds 10MB.`); return; }
+    if (!pendingFiles.find(p => p.name===f.name)) pendingFiles.push(f);
+  });
+  renderFiles();
+}
+function removeFile(i) { pendingFiles.splice(i,1); renderFiles(); }
+function renderFiles() {
+  document.getElementById('file-list').innerHTML = pendingFiles.map((f,i) => `
+    <div class="file-item">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><polyline points="13 2 13 9 20 9"/></svg>
+      <span>${f.name} <span style="color:var(--text-muted);font-size:0.8rem">(${(f.size/1024).toFixed(0)} KB)</span></span>
+      <button onclick="removeFile(${i})">×</button>
+    </div>`).join('');
+}
+
+// Submit collateral
+document.getElementById('btn-submit').addEventListener('click', async () => {
+  const btn = document.getElementById('btn-submit');
+  const msg = document.getElementById('collateral-status');
+  btn.disabled = true; btn.textContent = 'Uploading…';
+  try {
+    const file_records = [];
+
+    // Upload each file via signed URL
+    for (const file of pendingFiles) {
+      const urlRes = await fetch('/.netlify/functions/storage-upload-url', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'x-portal-token': portalToken },
+        body: JSON.stringify({ file_name: file.name }),
+      });
+      if (!urlRes.ok) throw new Error(`Failed to get upload URL for ${file.name}`);
+      const { signed_url, storage_path } = await urlRes.json();
+
+      const up = await fetch(signed_url, {
+        method: 'PUT',
+        headers: { 'Content-Type': file.type || 'application/octet-stream' },
+        body: file,
+      });
+      if (!up.ok) throw new Error(`Upload failed for ${file.name}`);
+
+      file_records.push({ file_name: file.name, storage_path, file_type: file.type, size_bytes: file.size });
+    }
+
+    btn.textContent = 'Saving…';
+
+    // Submit discovery data + file records + status update via function
+    const res = await fetch('/.netlify/functions/submit-collateral', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'x-portal-token': portalToken },
+      body: JSON.stringify({
+        brand_colors: document.getElementById('brand-colors').value,
+        brand_fonts:  document.getElementById('brand-fonts').value,
+        brand_notes:  document.getElementById('brand-notes').value,
+        file_records,
+      }),
+    });
+    if (!res.ok) { const d = await res.json(); throw new Error(d.error || 'Submit failed'); }
+
+    hideProg(); show('step-done');
+  } catch(err) {
+    console.error(err);
+    msg.textContent = err.message || 'Something went wrong. Please try again or contact Brad directly.';
+    msg.className = 'status-msg error';
+    btn.disabled = false; btn.textContent = 'Submit & Start Project';
+  }
+});
+
+loadClient();
+</script>
+</body>
+</html>

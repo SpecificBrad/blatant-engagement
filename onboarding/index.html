@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Get Started — Blatant Engagement</title>
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --hero-bg:     #120e0b;
+      --dark:        #1a1512;
+      --dark-2:      #231c17;
+      --dark-border: #312620;
+      --accent:      #c05a28;
+      --accent-h:    #9d4820;
+      --white:       #ffffff;
+      --warm-white:  #fdfaf7;
+      --warm-cream:  #f3ece0;
+      --warm-border: #e4d9cc;
+      --text:        #1c1915;
+      --text-light:  #6b5f54;
+      --text-muted:  #a09080;
+      --success:     #3d8c5e;
+      --font-display: 'Plus Jakarta Sans', sans-serif;
+      --font-body:    'Inter', sans-serif;
+    }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--hero-bg);
+      color: var(--white);
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── NAV ── */
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 32px;
+      border-bottom: 1px solid var(--dark-border);
+      background: rgba(18,14,11,0.95);
+    }
+
+    .nav-logo {
+      font-family: var(--font-display);
+      font-weight: 900;
+      font-size: 1.1rem;
+      color: var(--white);
+      text-decoration: none;
+      letter-spacing: -0.025em;
+    }
+    .nav-logo span { color: var(--accent); }
+
+    .nav-client-login {
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+    .nav-client-login:hover { color: var(--accent); }
+
+    /* ── MAIN ── */
+    main {
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      padding: 48px 24px 80px;
+      min-height: calc(100vh - 62px);
+    }
+
+    .card {
+      background: var(--dark-2);
+      border: 1px solid var(--dark-border);
+      border-radius: 14px;
+      padding: 40px;
+      width: 100%;
+      max-width: 520px;
+    }
+
+    .card-eyebrow {
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .card-eyebrow::before {
+      content: '';
+      display: block;
+      width: 20px;
+      height: 1px;
+      background: var(--accent);
+    }
+
+    .card-title {
+      font-family: var(--font-display);
+      font-size: 1.6rem;
+      font-weight: 800;
+      letter-spacing: -0.025em;
+      line-height: 1.15;
+      color: var(--white);
+      margin-bottom: 8px;
+    }
+
+    .card-sub {
+      font-size: 0.875rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+      margin-bottom: 32px;
+    }
+
+    /* ── FORM ── */
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    .form-row.full { grid-template-columns: 1fr; }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-bottom: 16px;
+    }
+
+    label {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: rgba(255,255,255,0.7);
+    }
+
+    input, select {
+      background: var(--dark);
+      border: 1px solid var(--dark-border);
+      border-radius: 8px;
+      padding: 11px 14px;
+      font-family: var(--font-body);
+      font-size: 0.9rem;
+      color: var(--white);
+      outline: none;
+      transition: border-color 0.15s;
+      width: 100%;
+      appearance: none;
+      -webkit-appearance: none;
+    }
+    input::placeholder { color: var(--text-muted); }
+    input:focus, select:focus { border-color: var(--accent); }
+    select option { background: var(--dark-2); }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      background: var(--accent);
+      color: var(--white);
+      border: none;
+      padding: 13px 28px;
+      border-radius: 7px;
+      font-family: var(--font-display);
+      font-size: 0.9rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.15s, transform 0.1s;
+      width: 100%;
+      margin-top: 8px;
+    }
+    .btn-primary:hover:not(:disabled) { background: var(--accent-h); transform: translateY(-1px); }
+    .btn-primary:disabled { opacity: 0.55; cursor: not-allowed; transform: none; }
+
+    .status-msg {
+      display: none;
+      border-radius: 8px;
+      padding: 12px 16px;
+      font-size: 0.85rem;
+      line-height: 1.5;
+      margin-top: 16px;
+    }
+    .status-msg.success { background: rgba(61,140,94,0.15); border: 1px solid rgba(61,140,94,0.3); color: #6ee7a7; }
+    .status-msg.error   { background: rgba(185,28,28,0.15); border: 1px solid rgba(185,28,28,0.3); color: #fca5a5; }
+
+    .spinner {
+      width: 16px; height: 16px;
+      border: 2px solid rgba(255,255,255,0.3);
+      border-top-color: var(--white);
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+      display: none;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ── SUCCESS VIEW ── */
+    #view-success { display: none; text-align: center; }
+    .success-icon {
+      width: 52px; height: 52px;
+      background: rgba(61,140,94,0.15);
+      border: 1px solid rgba(61,140,94,0.3);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 20px;
+    }
+    .success-title {
+      font-family: var(--font-display);
+      font-size: 1.4rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      color: var(--white);
+      margin-bottom: 10px;
+    }
+    .success-sub {
+      font-size: 0.875rem;
+      color: var(--text-muted);
+      line-height: 1.65;
+    }
+
+    @media (max-width: 540px) {
+      .card { padding: 28px 20px; }
+      .form-row { grid-template-columns: 1fr; }
+      nav { padding: 14px 20px; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="/" class="nav-logo">Blatant<span>.</span></a>
+    <a href="/client" class="nav-client-login">Returning client →</a>
+  </nav>
+
+  <main>
+    <div class="card">
+
+      <!-- ── FORM VIEW ── -->
+      <div id="view-form">
+        <div class="card-eyebrow">Get Started</div>
+        <h1 class="card-title">Let's build your website.</h1>
+        <p class="card-sub">Fill in your details and we'll be in touch within one business day.</p>
+
+        <form id="onboarding-form" onsubmit="handleSubmit(event)">
+          <div class="form-row">
+            <div class="field">
+              <label for="o-name">Full name *</label>
+              <input type="text" id="o-name" placeholder="Jane Smith" required>
+            </div>
+            <div class="field">
+              <label for="o-email">Email *</label>
+              <input type="email" id="o-email" placeholder="jane@example.com" required>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="field">
+              <label for="o-phone">Phone *</label>
+              <input type="tel" id="o-phone" placeholder="709-555-0100" required>
+            </div>
+            <div class="field">
+              <label for="o-pkg">Package interest</label>
+              <select id="o-pkg">
+                <option value="">— not sure yet —</option>
+                <option value="basic">Basic — $500</option>
+                <option value="upgraded">Upgraded — $750</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-row full">
+            <div class="field">
+              <label for="o-business">Business name</label>
+              <input type="text" id="o-business" placeholder="Smith Electric Ltd.">
+            </div>
+          </div>
+
+          <button type="submit" class="btn-primary" id="btn-submit">
+            <span id="btn-text">Submit</span>
+            <div class="spinner" id="submit-spinner"></div>
+          </button>
+        </form>
+
+        <div class="status-msg" id="form-status"></div>
+      </div>
+
+      <!-- ── SUCCESS VIEW ── -->
+      <div id="view-success">
+        <div class="success-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#6ee7a7" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+        <div class="success-title">You're all set.</div>
+        <p class="success-sub">Thanks for reaching out. Brad will be in touch within one business day to discuss your project.</p>
+      </div>
+
+    </div>
+  </main>
+
+  <script>
+    const FN_URL = '/.netlify/functions/onboarding';
+
+    async function handleSubmit(e) {
+      e.preventDefault();
+
+      const btn    = document.getElementById('btn-submit');
+      const text   = document.getElementById('btn-text');
+      const spin   = document.getElementById('submit-spinner');
+      const status = document.getElementById('form-status');
+
+      btn.disabled       = true;
+      spin.style.display = 'block';
+      text.textContent   = 'Submitting…';
+      status.style.display = 'none';
+
+      const payload = {
+        name:          document.getElementById('o-name').value.trim(),
+        email:         document.getElementById('o-email').value.trim(),
+        phone:         document.getElementById('o-phone').value.trim(),
+        business_name: document.getElementById('o-business').value.trim() || null,
+        package:       document.getElementById('o-pkg').value || null,
+      };
+
+      try {
+        const res  = await fetch(FN_URL, {
+          method:  'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body:    JSON.stringify(payload),
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || `Error ${res.status}`);
+
+        document.getElementById('view-form').style.display    = 'none';
+        document.getElementById('view-success').style.display = 'block';
+
+      } catch (err) {
+        status.className     = 'status-msg error';
+        status.textContent   = err.message;
+        status.style.display = 'block';
+        btn.disabled         = false;
+        spin.style.display   = 'none';
+        text.textContent     = 'Submit';
+      }
+    }
+  </script>
+</body>
+</html>

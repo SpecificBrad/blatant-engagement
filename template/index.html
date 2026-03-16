@@ -1,0 +1,892 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Google tag (gtag.js) — replace G-XXXXXXXXXX with client's GA4 Measurement ID -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-XXXXXXXXXX');
+  </script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Google Analytics — swap G-XXXXXXXXXX with client's GA4 Measurement ID -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-XXXXXXXXXX');
+  </script>
+
+  <!-- ══════════════════════════════════════════════
+       CLIENT CUSTOMIZATION — SWAP THESE VALUES
+       ══════════════════════════════════════════════ -->
+  <!-- 1. Page title & SEO -->
+  <title>CLIENT_BUSINESS_NAME — CLIENT_TAGLINE</title>
+  <meta name="description" content="CLIENT_META_DESCRIPTION" />
+  <meta name="keywords" content="CLIENT_KEYWORDS, CLIENT_CITY, CLIENT_PROVINCE" />
+  <meta property="og:title" content="CLIENT_BUSINESS_NAME" />
+  <meta property="og:description" content="CLIENT_META_DESCRIPTION" />
+  <meta property="og:type" content="website" />
+  <!-- ════════════════════════════════════════════ -->
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <!-- SWAP: Change font family here if needed. Default: Inter + Plus Jakarta Sans -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ════════════════════════════════════════════════════════
+       THEME VARIABLES — Change these per client. Nothing else
+       needs to change for a basic color/font swap.
+       ════════════════════════════════════════════════════════ */
+    :root {
+      /* Colors */
+      --color-primary: #1a1a2e;        /* Hero bg, nav bg */
+      --color-accent: #e63946;         /* Buttons, highlights */
+      --color-accent-hover: #c1121f;   /* Button hover */
+      --color-bg: #ffffff;             /* Page background */
+      --color-bg-alt: #f8f8f8;         /* Alternating sections */
+      --color-text: #1a1a1a;           /* Body text */
+      --color-text-light: #555555;     /* Secondary text */
+      --color-text-muted: #999999;     /* Placeholder, meta */
+      --color-border: #e5e5e5;         /* Card borders */
+      --color-hero-text: #ffffff;      /* Hero heading color */
+      --color-hero-sub: #cccccc;       /* Hero subheadline */
+
+      /* Typography */
+      --font-display: 'Plus Jakarta Sans', sans-serif;
+      --font-body: 'Inter', sans-serif;
+
+      /* Layout */
+      --max-width: 1080px;
+      --section-v: 88px;
+      --section-h: 24px;
+      --radius: 12px;
+    }
+    /* ════════════════════════════════════════════════════════ */
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font-body);
+      color: var(--color-text);
+      background: var(--color-bg);
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    img { max-width: 100%; height: auto; display: block; }
+    a { color: inherit; }
+
+    /* ── NAV ── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: var(--color-primary);
+      padding: 18px var(--section-h);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+    }
+
+    /* SWAP: Replace with <img src="logo.png" alt="Business Name" height="40"> */
+    .nav-logo-img {
+      width: 40px;
+      height: 40px;
+      background: var(--color-accent);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 1.1rem;
+      color: white;
+    }
+
+    .nav-logo-text {
+      font-family: var(--font-display);
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--color-hero-text);
+    }
+
+    .nav-phone {
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: var(--color-hero-text);
+      text-decoration: none;
+      opacity: 0.85;
+      transition: opacity 0.15s;
+    }
+    .nav-phone:hover { opacity: 1; }
+
+    /* ── HERO ── */
+    #hero {
+      background: var(--color-primary);
+      /* SWAP: background-image: url('hero.jpg'); background-size: cover; background-position: center; */
+      padding: clamp(80px, 12vw, 140px) var(--section-h);
+      display: flex;
+      align-items: center;
+      min-height: 80vh;
+      position: relative;
+    }
+
+    /* Overlay — useful when hero has a background image */
+    #hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,0.45);
+      /* Remove this rule if you want a solid-color hero without overlay */
+      display: none; /* Enable when using background image */
+    }
+
+    .hero-inner {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      width: 100%;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-eyebrow {
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--color-accent);
+      margin-bottom: 20px;
+      display: block;
+    }
+
+    .hero-heading {
+      font-family: var(--font-display);
+      font-size: clamp(2.2rem, 5.5vw, 4rem);
+      font-weight: 800;
+      line-height: 1.1;
+      letter-spacing: -0.025em;
+      color: var(--color-hero-text);
+      max-width: 760px;
+      margin-bottom: 24px;
+    }
+
+    .hero-sub {
+      font-size: clamp(1rem, 2vw, 1.15rem);
+      color: var(--color-hero-sub);
+      max-width: 520px;
+      margin-bottom: 40px;
+      line-height: 1.7;
+    }
+
+    .hero-ctas {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 14px 30px;
+      border-radius: 8px;
+      font-family: var(--font-display);
+      font-size: 0.95rem;
+      font-weight: 700;
+      text-decoration: none;
+      transition: all 0.15s;
+      cursor: pointer;
+      border: 2px solid transparent;
+    }
+
+    .btn-primary {
+      background: var(--color-accent);
+      color: #ffffff;
+      border-color: var(--color-accent);
+    }
+    .btn-primary:hover { background: var(--color-accent-hover); border-color: var(--color-accent-hover); }
+
+    .btn-outline {
+      background: transparent;
+      color: #ffffff;
+      border-color: rgba(255,255,255,0.4);
+    }
+    .btn-outline:hover { border-color: #ffffff; }
+
+    /* ── SECTION BASE ── */
+    .section {
+      padding: var(--section-v) var(--section-h);
+    }
+
+    .section--alt { background: var(--color-bg-alt); }
+
+    .section-inner {
+      max-width: var(--max-width);
+      margin: 0 auto;
+    }
+
+    .section-label {
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--color-accent);
+      margin-bottom: 12px;
+    }
+
+    .section-heading {
+      font-family: var(--font-display);
+      font-size: clamp(1.6rem, 3.5vw, 2.4rem);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      line-height: 1.18;
+      color: var(--color-text);
+      margin-bottom: 16px;
+    }
+
+    .section-body {
+      font-size: 1rem;
+      color: var(--color-text-light);
+      max-width: 580px;
+      line-height: 1.7;
+      margin-bottom: 48px;
+    }
+
+    /* ── ABOUT / SERVICES ── */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 64px;
+      align-items: center;
+    }
+
+    .about-img {
+      border-radius: var(--radius);
+      overflow: hidden;
+      aspect-ratio: 4/3;
+      background: var(--color-border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .about-img img { width: 100%; height: 100%; object-fit: cover; }
+
+    /* SWAP: Remove placeholder text when real image is added */
+    .about-img-placeholder {
+      font-size: 0.82rem;
+      color: var(--color-text-muted);
+      text-align: center;
+      padding: 20px;
+    }
+
+    .services-list {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      margin-top: 32px;
+    }
+
+    .service-item {
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+    }
+
+    .service-icon {
+      font-size: 1.4rem;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .service-item h3 {
+      font-family: var(--font-display);
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 4px;
+      color: var(--color-text);
+    }
+
+    .service-item p {
+      font-size: 0.875rem;
+      color: var(--color-text-light);
+      line-height: 1.6;
+    }
+
+    /* ── GALLERY ── (toggle: add class "hidden" to #gallery to disable) */
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+
+    .gallery-item {
+      border-radius: 8px;
+      overflow: hidden;
+      aspect-ratio: 4/3;
+      background: var(--color-border);
+    }
+
+    .gallery-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.3s;
+    }
+
+    .gallery-item:hover img { transform: scale(1.04); }
+
+    .gallery-placeholder {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.75rem;
+      color: var(--color-text-muted);
+      background: var(--color-bg-alt);
+    }
+
+    /* ── MAP ── */
+    .map-wrap {
+      border-radius: var(--radius);
+      overflow: hidden;
+      border: 1px solid var(--color-border);
+      aspect-ratio: 16/6;
+    }
+
+    .map-wrap iframe {
+      width: 100%;
+      height: 100%;
+      border: 0;
+      display: block;
+    }
+
+    /* ── CONTACT ── */
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.5fr;
+      gap: 64px;
+      align-items: start;
+    }
+
+    .contact-details h3 {
+      font-family: var(--font-display);
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 20px;
+    }
+
+    .contact-detail-item {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 16px;
+      align-items: flex-start;
+    }
+
+    .detail-icon { font-size: 1.1rem; flex-shrink: 0; margin-top: 2px; }
+
+    .detail-text { font-size: 0.9rem; color: var(--color-text-light); line-height: 1.5; }
+
+    .detail-text a { color: var(--color-accent); text-decoration: none; }
+    .detail-text a:hover { text-decoration: underline; }
+
+    .contact-social {
+      display: flex;
+      gap: 10px;
+      margin-top: 24px;
+      flex-wrap: wrap;
+    }
+
+    .social-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 14px;
+      border: 1px solid var(--color-border);
+      border-radius: 6px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-decoration: none;
+      color: var(--color-text);
+      transition: border-color 0.15s, color 0.15s;
+    }
+
+    .social-link:hover { border-color: var(--color-accent); color: var(--color-accent); }
+
+    .contact-form-wrap {
+      background: var(--color-bg-alt);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius);
+      padding: 36px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-bottom: 18px;
+    }
+
+    .form-group label {
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--color-text-light);
+      letter-spacing: 0.04em;
+    }
+
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+      background: var(--color-bg);
+      border: 1px solid var(--color-border);
+      border-radius: 8px;
+      padding: 11px 14px;
+      color: var(--color-text);
+      font-family: var(--font-body);
+      font-size: 0.9rem;
+      outline: none;
+      transition: border-color 0.15s;
+      width: 100%;
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus,
+    .form-group select:focus { border-color: var(--color-accent); }
+
+    .form-group textarea { resize: vertical; min-height: 90px; }
+
+    .form-submit {
+      width: 100%;
+      padding: 14px;
+      background: var(--color-accent);
+      color: #ffffff;
+      border: none;
+      border-radius: 8px;
+      font-family: var(--font-display);
+      font-size: 0.95rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.15s;
+      margin-top: 4px;
+    }
+
+    .form-submit:hover { background: var(--color-accent-hover); }
+    .form-submit:disabled { opacity: 0.6; cursor: not-allowed; }
+
+    .form-status {
+      margin-top: 14px;
+      padding: 10px 14px;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      display: none;
+    }
+
+    .form-status.success {
+      background: rgba(34,197,94,0.1);
+      border: 1px solid rgba(34,197,94,0.3);
+      color: #16a34a;
+      display: block;
+    }
+
+    .form-status.error {
+      background: rgba(220,38,38,0.1);
+      border: 1px solid rgba(220,38,38,0.3);
+      color: #dc2626;
+      display: block;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--color-primary);
+      color: var(--color-hero-text);
+      padding: 48px var(--section-h) 32px;
+    }
+
+    .footer-inner {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      gap: 48px;
+      margin-bottom: 40px;
+    }
+
+    .footer-brand h3 {
+      font-family: var(--font-display);
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .footer-brand p {
+      font-size: 0.85rem;
+      color: rgba(255,255,255,0.5);
+      line-height: 1.6;
+      max-width: 280px;
+    }
+
+    .footer-col h4 {
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.5);
+      margin-bottom: 14px;
+    }
+
+    .footer-col ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .footer-col ul li a {
+      font-size: 0.875rem;
+      color: rgba(255,255,255,0.7);
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+
+    .footer-col ul li a:hover { color: #ffffff; }
+
+    .footer-bottom {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding-top: 24px;
+      border-top: 1px solid rgba(255,255,255,0.08);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .footer-bottom p {
+      font-size: 0.8rem;
+      color: rgba(255,255,255,0.35);
+    }
+
+    /* ── HIDDEN UTILITY ── */
+    .hidden { display: none !important; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      :root { --section-v: 64px; }
+      .about-grid,
+      .contact-grid { grid-template-columns: 1fr; gap: 40px; }
+      .gallery-grid { grid-template-columns: 1fr 1fr; }
+      .footer-inner { grid-template-columns: 1fr; gap: 32px; }
+      .footer-bottom { flex-direction: column; text-align: center; }
+      .about-img { display: none; } /* On mobile, hide image in about to save space — optional */
+    }
+
+    @media (max-width: 480px) {
+      .gallery-grid { grid-template-columns: 1fr; }
+      .hero-ctas { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══ NAV ══ -->
+<nav>
+  <a href="#" class="nav-logo">
+    <!-- SWAP: Replace inner div with <img src="logo.png" alt="CLIENT_BUSINESS_NAME" height="40" /> -->
+    <div class="nav-logo-img">A</div>
+    <span class="nav-logo-text">CLIENT_BUSINESS_NAME</span>
+  </a>
+  <!-- SWAP: Update phone number -->
+  <a href="tel:CLIENT_PHONE_RAW" class="nav-phone">CLIENT_PHONE</a>
+</nav>
+
+<!-- ══ HERO ══ -->
+<section id="hero">
+  <!-- SWAP: Add background-image via inline style or add class to enable overlay -->
+  <!-- <style>#hero { background-image: url('hero.jpg'); background-size: cover; } #hero::before { display: block; }</style> -->
+  <div class="hero-inner">
+    <!-- SWAP: Update eyebrow label -->
+    <span class="hero-eyebrow">CLIENT_INDUSTRY · CLIENT_CITY, CLIENT_PROVINCE</span>
+    <!-- SWAP: Main headline -->
+    <h1 class="hero-heading">CLIENT_HERO_HEADLINE</h1>
+    <!-- SWAP: Subheadline -->
+    <p class="hero-sub">CLIENT_HERO_SUBHEADLINE</p>
+    <div class="hero-ctas">
+      <!-- SWAP: Update CTA text and href -->
+      <a href="#contact" class="btn btn-primary">CLIENT_CTA_TEXT</a>
+      <a href="tel:CLIENT_PHONE_RAW" class="btn btn-outline">Call Us</a>
+    </div>
+  </div>
+</section>
+
+<!-- ══ ABOUT / SERVICES ══ -->
+<section class="section section--alt" id="about">
+  <div class="section-inner">
+    <div class="about-grid">
+      <div class="about-img">
+        <!-- SWAP: Replace with <img src="about.jpg" alt="CLIENT_BUSINESS_NAME" /> -->
+        <p class="about-img-placeholder">Add a photo of your business or team here</p>
+      </div>
+      <div>
+        <p class="section-label">About Us</p>
+        <!-- SWAP: Section heading -->
+        <h2 class="section-heading">CLIENT_ABOUT_HEADING</h2>
+        <!-- SWAP: About paragraph -->
+        <p class="section-body">CLIENT_ABOUT_BODY</p>
+
+        <!-- SWAP: Add/remove service items as needed -->
+        <div class="services-list">
+          <!-- SWAP: Replace SVG icons to match the service type -->
+          <div class="service-item">
+            <span class="service-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg></span>
+            <div>
+              <h3>SERVICE_1_NAME</h3>
+              <p>SERVICE_1_DESCRIPTION</p>
+            </div>
+          </div>
+          <div class="service-item">
+            <span class="service-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg></span>
+            <div>
+              <h3>SERVICE_2_NAME</h3>
+              <p>SERVICE_2_DESCRIPTION</p>
+            </div>
+          </div>
+          <div class="service-item">
+            <span class="service-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span>
+            <div>
+              <h3>SERVICE_3_NAME</h3>
+              <p>SERVICE_3_DESCRIPTION</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ GALLERY ══ (Add class "hidden" to this section to disable) -->
+<section class="section" id="gallery">
+  <div class="section-inner">
+    <p class="section-label">Gallery</p>
+    <h2 class="section-heading">Our Work</h2>
+    <p class="section-body">Take a look at what we do.</p>
+
+    <!-- SWAP: Replace placeholders with <img src="photo1.jpg" alt="Description" /> inside each .gallery-item -->
+    <div class="gallery-grid">
+      <div class="gallery-item"><div class="gallery-placeholder">Photo 1</div></div>
+      <div class="gallery-item"><div class="gallery-placeholder">Photo 2</div></div>
+      <div class="gallery-item"><div class="gallery-placeholder">Photo 3</div></div>
+      <div class="gallery-item"><div class="gallery-placeholder">Photo 4</div></div>
+      <div class="gallery-item"><div class="gallery-placeholder">Photo 5</div></div>
+      <div class="gallery-item"><div class="gallery-placeholder">Photo 6</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ MAP ══ (Add class "hidden" to this section to disable) -->
+<section class="section section--alt" id="location">
+  <div class="section-inner">
+    <p class="section-label">Find Us</p>
+    <h2 class="section-heading">Come Visit</h2>
+    <!-- SWAP: Replace with real address -->
+    <p class="section-body">CLIENT_ADDRESS · CLIENT_CITY, CLIENT_PROVINCE</p>
+
+    <div class="map-wrap">
+      <!-- SWAP: Replace src with actual Google Maps embed URL for client's address
+           Get it from: maps.google.com → Search address → Share → Embed a map → Copy iframe src -->
+      <iframe
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2659.1234567890!2d-52.7126!3d47.5615!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2sSt.+John%27s%2C+NL!5e0!3m2!1sen!2sca!4v1234567890"
+        allowfullscreen=""
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
+        title="CLIENT_BUSINESS_NAME location">
+      </iframe>
+    </div>
+  </div>
+</section>
+
+<!-- ══ CONTACT ══ -->
+<section class="section" id="contact">
+  <div class="section-inner">
+    <p class="section-label">Contact Us</p>
+    <h2 class="section-heading">Get In Touch</h2>
+    <p class="section-body">Have questions or ready to get started? Reach out — we'll get back to you quickly.</p>
+
+    <div class="contact-grid">
+      <div class="contact-details">
+        <h3>Contact Information</h3>
+
+        <div class="contact-detail-item">
+          <span class="detail-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg></span>
+          <!-- SWAP: Update address -->
+          <div class="detail-text">CLIENT_ADDRESS<br />CLIENT_CITY, CLIENT_PROVINCE CLIENT_POSTAL</div>
+        </div>
+
+        <div class="contact-detail-item">
+          <span class="detail-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg></span>
+          <div class="detail-text">
+            <!-- SWAP: Update phone -->
+            <a href="tel:CLIENT_PHONE_RAW">CLIENT_PHONE</a>
+          </div>
+        </div>
+
+        <div class="contact-detail-item">
+          <span class="detail-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></span>
+          <div class="detail-text">
+            <!-- SWAP: Update email -->
+            <a href="mailto:info@clientbusiness.ca">info@clientbusiness.ca</a>
+          </div>
+        </div>
+
+        <div class="contact-detail-item">
+          <span class="detail-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg></span>
+          <div class="detail-text">
+            <!-- SWAP: Update hours -->
+            Mon–Fri: 8am – 5pm<br />
+            Sat: 9am – 2pm<br />
+            Sun: Closed
+          </div>
+        </div>
+
+        <!-- SWAP: Update social links or remove if not applicable -->
+        <div class="contact-social">
+          <a href="https://facebook.com/CLIENT_FB_PAGE" target="_blank" rel="noopener" class="social-link">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg> Facebook
+          </a>
+          <a href="https://instagram.com/CLIENT_IG_HANDLE" target="_blank" rel="noopener" class="social-link">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg> Instagram
+          </a>
+        </div>
+      </div>
+
+      <div class="contact-form-wrap">
+        <form id="contact-form">
+          <div class="form-group">
+            <label for="name">Name</label>
+            <input type="text" id="name" name="name" placeholder="Your name" required />
+          </div>
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" placeholder="your@email.com" required />
+          </div>
+          <div class="form-group">
+            <label for="phone">Phone (optional)</label>
+            <input type="tel" id="phone" name="phone" placeholder="709-555-0100" />
+          </div>
+          <div class="form-group">
+            <label for="message">Message</label>
+            <textarea id="message" name="message" placeholder="How can we help you?" required></textarea>
+          </div>
+          <button type="submit" class="form-submit" id="submit-btn">Send Message</button>
+          <div class="form-status" id="form-status"></div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ FOOTER ══ -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <!-- SWAP: Business name and tagline -->
+      <h3>CLIENT_BUSINESS_NAME</h3>
+      <p>CLIENT_FOOTER_TAGLINE</p>
+    </div>
+    <div class="footer-col">
+      <h4>Services</h4>
+      <!-- SWAP: List top services -->
+      <ul>
+        <li><a href="#about">SERVICE_1_NAME</a></li>
+        <li><a href="#about">SERVICE_2_NAME</a></li>
+        <li><a href="#about">SERVICE_3_NAME</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Company</h4>
+      <ul>
+        <li><a href="#about">About Us</a></li>
+        <li><a href="#gallery">Gallery</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <!-- SWAP: Update year and business name -->
+    <p>© 2026 CLIENT_BUSINESS_NAME. All rights reserved.</p>
+    <p>Website by <a href="https://blatantengagement.com" style="color: rgba(255,255,255,0.5); text-decoration: none;">Blatant Engagement</a></p>
+  </div>
+</footer>
+
+<script>
+  // ── Supabase config — replace with your values ──
+  const SUPABASE_URL = 'YOUR_SUPABASE_URL';
+  const SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY';
+  // ── SWAP: Update table name if different per client ──
+  const SUPABASE_TABLE = 'client_contacts';
+
+  const form = document.getElementById('contact-form');
+  const submitBtn = document.getElementById('submit-btn');
+  const statusEl = document.getElementById('form-status');
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Sending...';
+    statusEl.className = 'form-status';
+    statusEl.style.display = 'none';
+
+    const payload = {
+      name: form.name.value.trim(),
+      email: form.email.value.trim(),
+      phone: form.phone.value.trim() || null,
+      message: form.message.value.trim(),
+      created_at: new Date().toISOString(),
+      // SWAP: Update with client business identifier
+      source: 'CLIENT_BUSINESS_SLUG'
+    };
+
+    try {
+      const res = await fetch(`${SUPABASE_URL}/rest/v1/${SUPABASE_TABLE}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'apikey': SUPABASE_ANON_KEY,
+          'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+          'Prefer': 'return=minimal'
+        },
+        body: JSON.stringify(payload)
+      });
+
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+
+      statusEl.textContent = "Thanks! We'll be in touch soon.";
+      statusEl.className = 'form-status success';
+      form.reset();
+    } catch (err) {
+      console.error(err);
+      statusEl.textContent = 'Something went wrong. Please call us directly.';
+      statusEl.className = 'form-status error';
+    } finally {
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Send Message';
+    }
+  });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,68 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Blatant Engagement — Service Inquiry API",
+    "description": "Submit a service inquiry to Blatant Engagement for a professional small business website. Flat rate $500–$750. Delivered in 5 business days.",
+    "version": "1.0.0",
+    "contact": {
+      "email": "hello@blatantengagement.com"
+    }
+  },
+  "servers": [
+    {
+      "url": "https://tnytkvmfswpupxtlnaad.supabase.co/rest/v1",
+      "description": "Supabase REST API"
+    }
+  ],
+  "paths": {
+    "/leads": {
+      "post": {
+        "operationId": "submitServiceInquiry",
+        "summary": "Submit a website service inquiry",
+        "description": "Send a service inquiry to Blatant Engagement. A real developer will respond within 1 business day. Services start at $500 for a complete single-page business website delivered in 5 business days.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["name", "business_name", "email"],
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "description": "Contact person's full name"
+                  },
+                  "business_name": {
+                    "type": "string",
+                    "description": "Name of the business"
+                  },
+                  "email": {
+                    "type": "string",
+                    "format": "email",
+                    "description": "Contact email address"
+                  },
+                  "phone": {
+                    "type": "string",
+                    "description": "Phone number (optional)"
+                  },
+                  "message": {
+                    "type": "string",
+                    "description": "Brief description of what the business needs"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Inquiry submitted successfully"
+          },
+          "400": {
+            "description": "Invalid request"
+          }
+        }
+      }
+    }
+  }
+}

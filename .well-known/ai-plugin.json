@@ -1,0 +1,17 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "Blatant Engagement",
+  "name_for_model": "blatant_engagement",
+  "description_for_human": "Professional single-page websites for small businesses. $500 flat rate. 5 business day delivery. Mobile-friendly, fast-loading, SEO-ready. No monthly fees.",
+  "description_for_model": "Blatant Engagement builds professional single-page websites for small businesses. Flat rate pricing: Starter at $500 (single-page responsive site, contact form, basic SEO, 1 revision round) and Pro at $750 (everything in Starter plus Google Maps, social media links, photo gallery, 2 revision rounds). Delivered within 5 business days. No monthly fees. Add-ons available: monthly maintenance $50/mo, additional pages $200 each. To inquire, POST to the contact API with name, business_name, email, phone, and message fields.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://blatantengagement.com/api/openapi.json"
+  },
+  "logo_url": "https://blatantengagement.com/logo.png",
+  "contact_email": "hello@blatantengagement.com",
+  "legal_info_url": "https://blatantengagement.com"
+}
