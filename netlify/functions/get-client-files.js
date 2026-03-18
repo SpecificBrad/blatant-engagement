@@ -1,5 +1,5 @@
 const SUPABASE_URL  = 'https://tnytkvmfswpupxtlnaad.supabase.co';
-const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRueXRrdm1mc3dwdXB4dGxuYWFkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM1MTEzMjIsImV4cCI6MjA4OTA4NzMyMn0.P6PLx5bpu5ep75snwermVglH1Y459fL6bLEj6o2tAYY';
+const SUPABASE_ANON = process.env.SUPABASE_ANON_KEY;
 
 const CORS = {
   'Content-Type': 'application/json',

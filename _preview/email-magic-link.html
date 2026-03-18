@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Email Preview — Magic Link</title>
+  <style>
+    body { margin: 0; background: #f3ece0; font-family: Arial, sans-serif; padding: 40px 20px; }
+    .preview-label { text-align: center; font-size: 0.75rem; color: #a09080; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 20px; }
+  </style>
+</head>
+<body>
+  <p class="preview-label">Email Preview — Magic Link</p>
+
+  <!-- EMAIL WRAPPER -->
+  <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#f3ece0;">
+    <tr>
+      <td align="center" style="padding: 20px;">
+        <table width="560" cellpadding="0" cellspacing="0" border="0" style="max-width:560px;width:100%;background:#120e0b;border-radius:14px;overflow:hidden;">
+
+          <!-- HEADER -->
+          <tr>
+            <td style="padding: 36px 40px 28px; border-bottom: 1px solid #312620;">
+              <span style="font-family: Georgia, 'Times New Roman', serif; font-size: 22px; font-weight: bold; color: #ffffff; letter-spacing: -0.01em;">
+                Blatant<span style="color:#c05a28;">.</span>
+              </span>
+            </td>
+          </tr>
+
+          <!-- BODY -->
+          <tr>
+            <td style="padding: 40px 40px 32px;">
+              <h1 style="margin: 0 0 16px; font-family: Georgia, 'Times New Roman', serif; font-size: 26px; font-weight: bold; color: #ffffff; line-height: 1.2; letter-spacing: -0.02em;">
+                Client Onboarding
+              </h1>
+              <p style="margin: 0 0 32px; font-family: Arial, sans-serif; font-size: 15px; color: #a09080; line-height: 1.65;">
+                Follow the link to create a new account.
+              </p>
+
+              <!-- CTA BUTTON -->
+              <table cellpadding="0" cellspacing="0" border="0">
+                <tr>
+                  <td style="background:#c05a28;border-radius:7px;">
+                    <a href="{{ .ConfirmationURL }}" style="display:inline-block;padding:14px 32px;font-family:Arial,sans-serif;font-size:15px;font-weight:700;color:#ffffff;text-decoration:none;letter-spacing:-0.01em;">
+                      Sign In to Blatant Engagement
+                    </a>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- DIVIDER -->
+          <tr>
+            <td style="padding: 0 40px;">
+              <div style="height:1px;background:#312620;"></div>
+            </td>
+          </tr>
+
+          <!-- FOOTER -->
+          <tr>
+            <td style="padding: 24px 40px 36px;">
+              <p style="margin: 0; font-family: Arial, sans-serif; font-size: 12px; color: #6b5f54; line-height: 1.6;">
+                Please use within the next 24 hours.
+              </p>
+              <p style="margin: 12px 0 0; font-family: Arial, sans-serif; font-size: 12px; color: #6b5f54;">
+                &copy; 2026 Blatant Engagement
+              </p>
+            </td>
+          </tr>
+
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>

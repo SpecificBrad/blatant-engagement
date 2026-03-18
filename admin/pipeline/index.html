@@ -1055,11 +1055,27 @@
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
   <script>
-    const SUPABASE_URL  = 'https://tnytkvmfswpupxtlnaad.supabase.co';
-    const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRueXRrdm1mc3dwdXB4dGxuYWFkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM1MTEzMjIsImV4cCI6MjA4OTA4NzMyMn0.P6PLx5bpu5ep75snwermVglH1Y459fL6bLEj6o2tAYY';
-    const FN_URL        = '/.netlify/functions/approve-lead';
+    let SUPABASE_URL  = 'https://tnytkvmfswpupxtlnaad.supabase.co';
+    let SUPABASE_ANON = null;
+    let sb = null;
+    const FN_URL = '/.netlify/functions/approve-lead';
 
-    const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
+    // Load config before initializing
+    async function initConfig() {
+      try {
+        const res = await fetch('/.netlify/functions/get-config');
+        if (res.ok) {
+          const config = await res.json();
+          SUPABASE_URL = config.supabaseUrl;
+          SUPABASE_ANON = config.supabaseAnonKey;
+          sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
+          return true;
+        }
+      } catch (err) {
+        console.error('Failed to load config:', err);
+      }
+      return false;
+    }
 
     const COLUMNS = [
       { status: 'lead',            label: 'Lead' },
@@ -1084,6 +1100,12 @@
 
     // ── INIT ──────────────────────────────────────────────────────────────────
     (async () => {
+      // Load config first
+      if (!await initConfig()) {
+        document.getElementById('view-loading').textContent = 'Failed to load configuration';
+        return;
+      }
+
       const { data: { session: s } } = await sb.auth.getSession();
       if (!s) {
         document.getElementById('view-loading').style.display = 'none';

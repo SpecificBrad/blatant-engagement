@@ -1,4 +1,5 @@
 const SUPABASE_URL = 'https://tnytkvmfswpupxtlnaad.supabase.co';
+import crypto from 'crypto';
 
 function supa(path, opts = {}) {
   const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
@@ -14,13 +15,43 @@ function supa(path, opts = {}) {
   });
 }
 
+function verifyStripeSignature(body, signature, secret) {
+  if (!secret) {
+    console.warn('STRIPE_WEBHOOK_SECRET not set — skipping verification (NOT FOR PRODUCTION)');
+    return true; // Fallback for development, but log warning
+  }
+
+  try {
+    const computed = crypto
+      .createHmac('sha256', secret)
+      .update(body)
+      .digest('hex');
+    
+    return crypto.timingSafeEqual(
+      Buffer.from(signature.split('=')[1] || '', 'hex'),
+      Buffer.from(computed, 'hex')
+    );
+  } catch (err) {
+    console.error('Signature verification failed:', err);
+    return false;
+  }
+}
+
 export async function handler(event) {
   if (event.httpMethod !== 'POST') {
     return { statusCode: 405, body: 'Method Not Allowed' };
   }
 
-  // Parse event — signature verification requires STRIPE_WEBHOOK_SECRET
-  // Skipping crypto verification for now (add once webhook secret is set in Netlify)
+  // Verify Stripe webhook signature
+  const signature = event.headers['stripe-signature'];
+  const secret = process.env.STRIPE_WEBHOOK_SECRET;
+
+  if (!signature || !verifyStripeSignature(event.body, signature, secret)) {
+    console.error('Invalid Stripe webhook signature');
+    return { statusCode: 401, body: 'Unauthorized' };
+  }
+
+  // Parse event
   let stripeEvent;
   try {
     stripeEvent = JSON.parse(event.body);

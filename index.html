@@ -12,15 +12,6 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <!-- Google Analytics -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-4P2YQ68SXT"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-4P2YQ68SXT');
-  </script>
-
   <title>Blatant Engagement — Websites That Work</title>
   <meta name="description" content="Need a website for your business? Blatant Engagement builds professional single-page websites for small businesses — $500 flat rate, delivered in 5 business days. Mobile-friendly, fast, SEO-ready. No monthly fees. Real developer, direct communication." />
   <meta name="keywords" content="web design small business, affordable website, cheap website for business, professional website $500, business website developer, web designer" />
@@ -1234,8 +1225,22 @@
 </footer>
 
 <script>
-  const SUPABASE_URL = 'https://tnytkvmfswpupxtlnaad.supabase.co';
-  const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRueXRrdm1mc3dwdXB4dGxuYWFkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM1MTEzMjIsImV4cCI6MjA4OTA4NzMyMn0.P6PLx5bpu5ep75snwermVglH1Y459fL6bLEj6o2tAYY';
+  // Load config from secure endpoint
+  let SUPABASE_URL = 'https://tnytkvmfswpupxtlnaad.supabase.co';
+  let SUPABASE_ANON_KEY = null;
+
+  async function loadConfig() {
+    try {
+      const res = await fetch('/.netlify/functions/get-config');
+      if (res.ok) {
+        const config = await res.json();
+        SUPABASE_URL = config.supabaseUrl;
+        SUPABASE_ANON_KEY = config.supabaseAnonKey;
+      }
+    } catch (err) {
+      console.error('Failed to load config:', err);
+    }
+  }
 
   const form = document.getElementById('lead-form');
   const submitBtn = document.getElementById('submit-btn');
@@ -1243,6 +1248,17 @@
 
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
+
+    if (!SUPABASE_ANON_KEY) {
+      await loadConfig();
+      if (!SUPABASE_ANON_KEY) {
+        statusEl.textContent = 'Configuration error. Email me directly at hello@blatantengagement.com';
+        statusEl.className = 'form-status error';
+        statusEl.style.display = '';
+        return;
+      }
+    }
+
     submitBtn.disabled = true;
     submitBtn.textContent = 'Sending...';
     statusEl.className = 'form-status';
@@ -1286,6 +1302,9 @@
       submitBtn.textContent = 'Send Message →';
     }
   });
+
+  // Pre-load config on page load
+  loadConfig();
 </script>
 
 </body>

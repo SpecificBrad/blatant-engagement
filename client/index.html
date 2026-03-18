@@ -292,8 +292,24 @@
 </main>
 
 <script>
-const SUPABASE_URL  = 'https://tnytkvmfswpupxtlnaad.supabase.co';
-const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRueXRrdm1mc3dwdXB4dGxuYWFkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM1MTEzMjIsImV4cCI6MjA4OTA4NzMyMn0.P6PLx5bpu5ep75snwermVglH1Y459fL6bLEj6o2tAYY';
+let SUPABASE_URL  = 'https://tnytkvmfswpupxtlnaad.supabase.co';
+let SUPABASE_ANON = null;
+
+// Load config before using SUPABASE_ANON_KEY
+async function initConfig() {
+  try {
+    const res = await fetch('/.netlify/functions/get-config');
+    if (res.ok) {
+      const config = await res.json();
+      SUPABASE_URL = config.supabaseUrl;
+      SUPABASE_ANON = config.supabaseAnonKey;
+      return true;
+    }
+  } catch (err) {
+    console.error('Failed to load config:', err);
+  }
+  return false;
+}
 
 const pathParts   = window.location.pathname.split('/').filter(Boolean);
 const portalToken = pathParts[pathParts.length - 1];
@@ -323,6 +339,7 @@ function setProgress(active) {
 function hideProg() { document.getElementById('progress-bar').classList.add('hidden'); }
 
 async function loadClient() {
+  if (!SUPABASE_ANON && !await initConfig()) { hideProg(); show('step-error'); return; }
   if (!portalToken || portalToken === 'index.html') { hideProg(); show('step-error'); return; }
 
   const res = await fetch(
