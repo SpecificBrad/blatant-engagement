@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <!-- Termly Consent Banner -->
+  <script src="https://app.termly.io/resource-blocker/e9c22383-1da9-41b1-9492-75766f07ac36?autoBlock=on"></script>
   <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-4P2YQ68SXT"></script>
   <script>
@@ -19,6 +21,7 @@
   <meta property="og:description" content="Professional single-page websites for small businesses. $500 flat rate. Delivered in 5 business days. No monthly fees." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://blatantengagement.com" />
+  <meta property="og:image" content="https://blatantengagement.com/public/logo-og.png" />
   <link rel="canonical" href="https://blatantengagement.com" />
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   <link rel="manifest" href="/.well-known/ai-plugin.json" type="application/json" />
@@ -887,12 +890,36 @@
       .features-grid { gap: 1px; }
     }
   </style>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    "name": "Blatant Engagement",
+    "url": "https://blatantengagement.com",
+    "logo": "https://blatantengagement.com/logo.png",
+    "image": "https://blatantengagement.com/logo.png",
+    "description": "Professional web development and consulting for small to medium businesses in St. John's, Newfoundland.",
+    "email": "hello@blatantengagement.com",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "St. John's",
+      "addressRegion": "NL",
+      "addressCountry": "CA"
+    },
+    "areaServed": "St. John's, Newfoundland and Labrador",
+    "serviceType": ["Web Development", "Web Consulting"],
+    "priceRange": "$500 - $2000",
+    "sameAs": [
+      "https://www.facebook.com/blatantengagement"
+    ]
+  }
+  </script>
 </head>
 <body>
 
 <!-- NAV -->
 <nav>
-  <a href="#" class="nav-logo">Blatant<span>.</span></a>
+  <a href="#" class="nav-logo"><img src="/public/logo-og.png" alt="Blatant." style="height:22px;width:auto;display:block;"></a>
   <a href="#contact" class="nav-cta">Get Started</a>
 </nav>
 
@@ -1215,12 +1242,17 @@
 <!-- FOOTER -->
 <footer>
   <div class="footer-left">
-    <a href="#" class="footer-logo">Blatant<span>.</span></a>
+    <a href="#" class="footer-logo"><img src="/public/logo-og.png" alt="Blatant." style="height:20px;width:auto;display:block;"></a>
     <p class="footer-copy">© 2026 Blatant Engagement. All rights reserved.</p>
   </div>
   <div class="footer-contact">
     <a href="mailto:hello@blatantengagement.com">hello@blatantengagement.com</a>
     <a href="#contact">Get a quote →</a>
+    <div style="display:flex;gap:16px;margin-top:4px;">
+      <a href="/privacy.html" style="font-size:0.75rem;color:rgba(255,255,255,0.2);">Privacy</a>
+      <a href="/terms.html" style="font-size:0.75rem;color:rgba(255,255,255,0.2);">Terms</a>
+      <a href="#" class="termly-display-preferences" style="font-size:0.75rem;color:rgba(255,255,255,0.2);">Consent Preferences</a>
+    </div>
   </div>
 </footer>
 
