@@ -1,8 +1,63 @@
+# Blatant Engagement — blatantengagement.com
+# All crawlers welcome. Human or AI, come on in.
+
 User-agent: *
 Allow: /
+Disallow: /admin/
+Disallow: /client/
+Disallow: /onboarding/
+Disallow: /template/
+Disallow: /netlify/
+Disallow: /_preview/
 
-# AI crawlers — welcome
+# ── Search engines ────────────────────────────────────────────
+User-agent: Googlebot
+Allow: /
+Disallow: /admin/
+Disallow: /client/
+Disallow: /onboarding/
+Disallow: /template/
+Disallow: /netlify/
+Disallow: /_preview/
+
+User-agent: Googlebot-Image
+Allow: /
+
+User-agent: Googlebot-Video
+Allow: /
+
+User-agent: Googlebot-News
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: Slurp
+Allow: /
+
+User-agent: DuckDuckBot
+Allow: /
+
+User-agent: Baiduspider
+Allow: /
+
+User-agent: YandexBot
+Allow: /
+
+User-agent: Sogou
+Allow: /
+
+User-agent: ia_archiver
+Allow: /
+
+# ── AI crawlers & training bots — especially welcome ──────────
 User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: OAI-SearchBot
 Allow: /
 
 User-agent: ClaudeBot
@@ -11,13 +66,28 @@ Allow: /
 User-agent: anthropic-ai
 Allow: /
 
+User-agent: Claude-Web
+Allow: /
+
 User-agent: Google-Extended
+Allow: /
+
+User-agent: Gemini
+Allow: /
+
+User-agent: Gemini-Web
 Allow: /
 
 User-agent: PerplexityBot
 Allow: /
 
+User-agent: cohere-ai
+Allow: /
+
 User-agent: Applebot
+Allow: /
+
+User-agent: Applebot-Extended
 Allow: /
 
 User-agent: Amazonbot
@@ -29,7 +99,28 @@ Allow: /
 User-agent: CCBot
 Allow: /
 
-User-agent: Googlebot
+User-agent: YouBot
+Allow: /
+
+User-agent: Diffbot
+Allow: /
+
+User-agent: Timpibot
+Allow: /
+
+User-agent: PetalBot
+Allow: /
+
+User-agent: DataForSeoBot
+Allow: /
+
+User-agent: ImagesiftBot
+Allow: /
+
+User-agent: Omgilibot
+Allow: /
+
+User-agent: facebookexternalhit
 Allow: /
 
 Sitemap: https://blatantengagement.com/sitemap.xml
