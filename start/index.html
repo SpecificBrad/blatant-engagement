@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Meta Pixel — replace YOUR_PIXEL_ID before going live -->
+  <script>
+    !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+    n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+    document,'script','https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', 'YOUR_PIXEL_ID');
+    fbq('track', 'PageView');
+  </script>
+  <noscript><img height="1" width="1" style="display:none"
+    src="https://www.facebook.com/tr?id=YOUR_PIXEL_ID&ev=PageView&noscript=1" /></noscript>
+  <!-- End Meta Pixel -->
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-4P2YQ68SXT"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-4P2YQ68SXT');
+  </script>
+
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Get a Professional Website — Blatant Engagement</title>
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800;900&display=swap" rel="stylesheet" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:       #0a0a0a;
+      --surface:  #141414;
+      --border:   #2a2a2a;
+      --accent:   #f97316;
+      --accent-h: #ea6a0a;
+      --white:    #ffffff;
+      --muted:    #a0a0a0;
+      --success:  #3d8c5e;
+      --error:    #c05a28;
+      --font:     'Plus Jakarta Sans', sans-serif;
+    }
+
+    html, body {
+      background: var(--bg);
+      color: var(--white);
+      font-family: var(--font);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      min-height: 100vh;
+    }
+
+    /* ── Layout ── */
+    .page {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    main {
+      flex: 1;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      padding: 48px 20px 64px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 560px;
+    }
+
+    /* ── Headline ── */
+    .eyebrow {
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 16px;
+    }
+
+    h1 {
+      font-size: clamp(28px, 6vw, 44px);
+      font-weight: 900;
+      line-height: 1.15;
+      color: var(--white);
+      margin-bottom: 20px;
+    }
+
+    h1 span {
+      color: var(--accent);
+    }
+
+    .subhead {
+      font-size: 17px;
+      color: var(--muted);
+      margin-bottom: 32px;
+      line-height: 1.55;
+    }
+
+    /* ── Trust bullets ── */
+    .trust-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 36px;
+    }
+
+    .trust-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--white);
+    }
+
+    .trust-list li::before {
+      content: '';
+      flex-shrink: 0;
+      width: 20px;
+      height: 20px;
+      margin-top: 2px;
+      border-radius: 50%;
+      background: var(--accent);
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none'%3E%3Cpath d='M3 8l3.5 3.5L13 5' stroke='%23fff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+      background-size: 14px 14px;
+      background-repeat: no-repeat;
+      background-position: center;
+    }
+
+    /* ── Divider ── */
+    .divider {
+      height: 1px;
+      background: var(--border);
+      margin-bottom: 32px;
+    }
+
+    /* ── Form ── */
+    .form-label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--muted);
+      margin-bottom: 6px;
+      letter-spacing: 0.04em;
+    }
+
+    .form-group {
+      margin-bottom: 16px;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    input, textarea {
+      width: 100%;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 12px 14px;
+      font-family: var(--font);
+      font-size: 15px;
+      color: var(--white);
+      outline: none;
+      transition: border-color 0.15s;
+    }
+
+    input::placeholder, textarea::placeholder {
+      color: #555;
+    }
+
+    input:focus, textarea:focus {
+      border-color: var(--accent);
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 100px;
+    }
+
+    .form-submit {
+      width: 100%;
+      padding: 15px 24px;
+      background: var(--accent);
+      color: #fff;
+      font-family: var(--font);
+      font-size: 16px;
+      font-weight: 700;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.15s;
+      margin-top: 4px;
+    }
+
+    .form-submit:hover { background: var(--accent-h); }
+    .form-submit:disabled { opacity: 0.55; cursor: not-allowed; }
+
+    .form-status {
+      margin-top: 14px;
+      padding: 11px 15px;
+      border-radius: 7px;
+      font-size: 14px;
+      font-weight: 600;
+      display: none;
+    }
+
+    .form-status.success {
+      background: rgba(61,140,94,0.12);
+      border: 1px solid rgba(61,140,94,0.3);
+      color: #6fcf97;
+      display: block;
+    }
+
+    .form-status.error {
+      background: rgba(249,115,22,0.1);
+      border: 1px solid rgba(249,115,22,0.25);
+      color: #f97316;
+      display: block;
+    }
+
+    /* ── Footer ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 20px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .footer-logo img {
+      height: 32px;
+      width: auto;
+      display: block;
+      border-radius: 4px;
+    }
+
+    /* ── Mobile ── */
+    @media (max-width: 480px) {
+      main { padding: 36px 16px 48px; }
+
+      .form-row {
+        grid-template-columns: 1fr;
+        gap: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <main>
+    <div class="container">
+
+      <h1>Your business deserves<br>a real website.<br><span>$500. 5 days.</span></h1>
+
+      <p class="subhead">
+        No monthly fees. No templates. A proper website built by a real developer in St. John's, NL.
+      </p>
+
+      <ul class="trust-list">
+        <li>Flat rate starting at $500. You know the cost before we start.</li>
+        <li>Delivered in 5 business days.</li>
+        <li>One round of revisions included. You talk directly to the person building it.</li>
+      </ul>
+
+      <div class="divider"></div>
+
+      <form id="lead-form">
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label" for="name">Your Name</label>
+            <input type="text" id="name" name="name" placeholder="Jane Smith" required />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="business">Business Name</label>
+            <input type="text" id="business" name="business" placeholder="Smith's Bakery" required />
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label" for="email">Email</label>
+            <input type="email" id="email" name="email" placeholder="jane@example.com" required />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="phone">Phone (optional)</label>
+            <input type="tel" id="phone" name="phone" placeholder="555-0100" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="message">What do you need?</label>
+          <textarea id="message" name="message" placeholder="Tell me about your business and what you're looking for in a website..." required></textarea>
+        </div>
+        <button type="submit" class="form-submit" id="submit-btn">Get My Website →</button>
+        <div class="form-status" id="form-status"></div>
+      </form>
+
+    </div>
+  </main>
+
+  <footer>
+    <a href="/" class="footer-logo">
+      <img src="../logos/BE-Logo-TransWht.png" alt="Blatant." />
+    </a>
+  </footer>
+
+</div>
+
+<script>
+  // ── UTM capture ────────────────────────────────────────────────────────────
+  const params = new URLSearchParams(window.location.search);
+  const utmSource   = params.get('utm_source')   || '';
+  const utmMedium   = params.get('utm_medium')   || '';
+  const utmCampaign = params.get('utm_campaign') || '';
+
+  // ── Supabase config ────────────────────────────────────────────────────────
+  let SUPABASE_URL = 'https://tnytkvmfswpupxtlnaad.supabase.co';
+  let SUPABASE_ANON_KEY = null;
+
+  async function loadConfig() {
+    try {
+      const res = await fetch('/.netlify/functions/get-config');
+      if (res.ok) {
+        const config = await res.json();
+        SUPABASE_URL = config.supabaseUrl;
+        SUPABASE_ANON_KEY = config.supabaseAnonKey;
+      }
+    } catch (err) {
+      console.error('Failed to load config:', err);
+    }
+  }
+
+  // ── Form submit ────────────────────────────────────────────────────────────
+  const form      = document.getElementById('lead-form');
+  const submitBtn = document.getElementById('submit-btn');
+  const statusEl  = document.getElementById('form-status');
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    if (!SUPABASE_ANON_KEY) {
+      await loadConfig();
+      if (!SUPABASE_ANON_KEY) {
+        statusEl.textContent = 'Configuration error. Email me directly at hello@blatantengagement.com';
+        statusEl.className = 'form-status error';
+        statusEl.style.display = '';
+        return;
+      }
+    }
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Sending...';
+    statusEl.className = 'form-status';
+    statusEl.style.display = 'none';
+
+    const payload = {
+      name:          form.elements['name'].value.trim(),
+      business_name: form.elements['business'].value.trim(),
+      email:         form.elements['email'].value.trim(),
+      phone:         form.elements['phone'].value.trim() || null,
+      message:       form.elements['message'].value.trim(),
+      created_at:    new Date().toISOString(),
+      source:        'facebook-landing',
+      utm_source:    utmSource   || null,
+      utm_medium:    utmMedium   || null,
+      utm_campaign:  utmCampaign || null,
+    };
+
+    try {
+      const res = await fetch(`${SUPABASE_URL}/rest/v1/leads`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'apikey':        SUPABASE_ANON_KEY,
+          'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+          'Prefer':        'return=minimal'
+        },
+        body: JSON.stringify(payload)
+      });
+
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+
+      // ── Analytics on success ─────────────────────────────────────────────
+      if (typeof fbq !== 'undefined') {
+        fbq('track', 'Lead', { content_name: 'fb_landing' });
+      }
+      if (typeof gtag !== 'undefined') {
+        gtag('event', 'generate_lead', { source: 'facebook_landing' });
+      }
+
+      statusEl.textContent = "Got it! I'll be in touch within a few hours.";
+      statusEl.className = 'form-status success';
+      statusEl.style.display = '';
+      form.reset();
+
+    } catch (err) {
+      console.error('Form error:', err);
+      statusEl.textContent = 'Something went wrong. Email me at hello@blatantengagement.com';
+      statusEl.className = 'form-status error';
+      statusEl.style.display = '';
+    } finally {
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Get My Website →';
+    }
+  });
+
+  // Pre-load config
+  loadConfig();
+</script>
+
+</body>
+</html>
