@@ -38,6 +38,19 @@ Static HTML/CSS/JS · Netlify (hosting + functions) · Supabase (leads/clients/p
 5. Show error on `/admin` for expired/used magic links
 6. Drop `client_contacts` table in Supabase SQL editor
 7. Post on Facebook Marketplace (see facebook-posts.md)
+8. Add `privacy.html` and `terms.html` to main blatant repo and deploy (files in Downloads, need Termly consent banner + footer links wired)
+9. Add Termly consent banner script to main `index.html`
+
+## AI Consulting Site (ai.blatantengagement.com)
+- **Working file:** `C:/Users/brad/Downloads/ai-blatant-stability-style_11.html`
+- **Deploy folder:** `C:/Users/brad/Downloads/ai-deploy/`
+- **Netlify site ID:** `93450cc9-25d1-4d20-8f75-bfeb6ad8b458`
+- **GA4:** `G-VYHD7L5CX9` · **GTM:** `GTM-T7N9MF6F`
+- **TODO:** Test contact form → confirm Telegram ping live on ai.blatantengagement.com
+- **TODO:** Create `terms.html` (have Termly T&C template at `C:/Users/brad/Downloads/terms_and_conditions.txt`)
+- **TODO:** Wire footer "Consent Preferences" Termly link
+- **TODO:** Contact form popup modals for tools section (next iteration)
+- **TODO:** Add GA4 property for ai.blatant in GTM container (property created, tag `G-VYHD7L5CX9` in head)
 
 ## Blocked
 - Full Stripe flow blocked until `STRIPE_WEBHOOK_SECRET` set
