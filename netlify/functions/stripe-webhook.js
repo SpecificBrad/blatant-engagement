@@ -15,22 +15,43 @@ function supa(path, opts = {}) {
   });
 }
 
-function verifyStripeSignature(body, signature, secret) {
+function verifyStripeSignature(payload, header, secret) {
   if (!secret) {
-    console.warn('STRIPE_WEBHOOK_SECRET not set — skipping verification (NOT FOR PRODUCTION)');
-    return true; // Fallback for development, but log warning
+    console.error('STRIPE_WEBHOOK_SECRET not set — rejecting webhook');
+    return false;
+  }
+  if (!header) return false;
+
+  // Stripe's header looks like: t=<timestamp>,v1=<signature>[,v0=<old_signature>]
+  const parts = Object.fromEntries(
+    header.split(',').map((p) => {
+      const idx = p.indexOf('=');
+      return [p.slice(0, idx), p.slice(idx + 1)];
+    })
+  );
+
+  const timestamp = parts['t'];
+  const v1 = parts['v1'];
+  if (!timestamp || !v1) {
+    console.error('Malformed Stripe-Signature header');
+    return false;
   }
 
+  // Reject events with a timestamp too far from now (replay-attack protection)
+  const ageSeconds = Math.abs(Math.floor(Date.now() / 1000) - Number(timestamp));
+  if (!Number.isFinite(ageSeconds) || ageSeconds > 300) {
+    console.error('Stripe webhook timestamp outside tolerance');
+    return false;
+  }
+
+  const signedPayload = `${timestamp}.${payload}`;
+  const expected = crypto
+    .createHmac('sha256', secret)
+    .update(signedPayload, 'utf8')
+    .digest('hex');
+
   try {
-    const computed = crypto
-      .createHmac('sha256', secret)
-      .update(body)
-      .digest('hex');
-    
-    return crypto.timingSafeEqual(
-      Buffer.from(signature.split('=')[1] || '', 'hex'),
-      Buffer.from(computed, 'hex')
-    );
+    return crypto.timingSafeEqual(Buffer.from(v1, 'hex'), Buffer.from(expected, 'hex'));
   } catch (err) {
     console.error('Signature verification failed:', err);
     return false;
