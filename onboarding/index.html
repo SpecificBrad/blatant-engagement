@@ -252,6 +252,10 @@
         <p class="card-sub">Fill in your details and we'll be in touch within one business day.</p>
 
         <form id="onboarding-form" onsubmit="handleSubmit(event)">
+          <div style="position:absolute;left:-9999px;top:-9999px;" aria-hidden="true">
+            <label for="o-website">Website</label>
+            <input type="text" id="o-website" tabindex="-1" autocomplete="off">
+          </div>
           <div class="form-row">
             <div class="field">
               <label for="o-name">Full name *</label>
@@ -308,6 +312,7 @@
 
   <script>
     const FN_URL = '/.netlify/functions/onboarding';
+    const pageLoadedAt = Date.now();
 
     async function handleSubmit(e) {
       e.preventDefault();
@@ -328,6 +333,8 @@
         phone:         document.getElementById('o-phone').value.trim(),
         business_name: document.getElementById('o-business').value.trim() || null,
         package:       document.getElementById('o-pkg').value || null,
+        website:       document.getElementById('o-website').value.trim(),
+        ts:            String(pageLoadedAt),
       };
 
       try {

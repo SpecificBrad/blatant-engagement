@@ -28,7 +28,14 @@ export async function handler(event) {
     return json(400, { error: 'Invalid JSON' });
   }
 
-  const { name, email, phone, business_name, package: pkg } = payload;
+  const { name, email, phone, business_name, package: pkg, website, ts } = payload;
+
+  // Honeypot + timing check — return a fake success so junk never reaches
+  // Supabase and a bot can't tell it was caught.
+  const elapsedMs = Date.now() - Number(ts || 0);
+  if (website || !ts || elapsedMs < 3000) {
+    return json(200, { success: true });
+  }
 
   if (!name || !email || !phone) {
     return json(400, { error: 'name, email, and phone are required' });

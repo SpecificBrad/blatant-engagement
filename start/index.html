@@ -281,6 +281,11 @@
       <div class="divider"></div>
 
       <form id="lead-form">
+        <div style="position:absolute;left:-9999px;top:-9999px;" aria-hidden="true">
+          <label for="company_url">Company URL</label>
+          <input type="text" id="company_url" name="company_url" tabindex="-1" autocomplete="off">
+        </div>
+        <input type="hidden" id="form_ts" name="form_ts">
         <div class="form-row">
           <div class="form-group">
             <label class="form-label" for="name">Your Name</label>
@@ -349,8 +354,23 @@
   const submitBtn = document.getElementById('submit-btn');
   const statusEl  = document.getElementById('form-status');
 
+  document.getElementById('form_ts').value = Date.now();
+
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
+
+    // Honeypot + timing check — bots that fill the hidden field or submit
+    // instantly get a fake success with no write to Supabase.
+    const honeypot = form.elements['company_url'].value.trim();
+    const elapsedMs = Date.now() - Number(form.elements['form_ts'].value || 0);
+    if (honeypot || elapsedMs < 3000) {
+      statusEl.textContent = "Got it! I'll be in touch within a few hours.";
+      statusEl.className = 'form-status success';
+      statusEl.style.display = '';
+      form.reset();
+      document.getElementById('form_ts').value = Date.now();
+      return;
+    }
 
     if (!SUPABASE_ANON_KEY) {
       await loadConfig();
@@ -378,6 +398,8 @@
       utm_source:    utmSource   || null,
       utm_medium:    utmMedium   || null,
       utm_campaign:  utmCampaign || null,
+      hp_field:      honeypot || null,
+      form_loaded_at: new Date(Number(form.elements['form_ts'].value)).toISOString(),
     };
 
     try {
