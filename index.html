@@ -15,8 +15,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <title>Blatant Engagement — Websites That Work</title>
-  <meta name="description" content="Need a website for your business? Blatant Engagement builds professional single-page websites for small businesses — $500 flat rate, delivered in 5 business days. Mobile-friendly, fast, SEO-ready. No monthly fees. Real developer, direct communication." />
-  <meta name="keywords" content="web design small business, affordable website, cheap website for business, professional website $500, business website developer, web designer" />
+  <meta name="description" content="Need a website for your business? Blatant Engagement builds professional single-page websites for small businesses — $500 flat rate, delivered in 5 business days. Mobile-friendly, fast, SEO-ready. No monthly fees. Hand-coded, no templates, no agency runaround." />
+  <meta name="keywords" content="web design small business, affordable website, cheap website for business, professional website $500, small business web design, web designer" />
   <meta property="og:title" content="Blatant Engagement — Websites for Small Businesses" />
   <meta property="og:description" content="Professional single-page websites for small businesses. $500 flat rate. Delivered in 5 business days. No monthly fees." />
   <meta property="og:type" content="website" />
@@ -1151,10 +1151,10 @@
     <div class="about-inner">
       <div class="about-text">
         <p class="section-label">About</p>
-        <h2 class="section-title">You talk to the developer.<br>Not a project manager.</h2>
+        <h2 class="section-title">Straight to the build.<br>No project managers, no middlemen.</h2>
         <p>Blatant Engagement builds fast, hand-coded websites for small businesses. No page builders. No bloat. No template recycled from a thousand other sites.</p>
         <p>Every site is built from scratch for your business — responsive, SEO-ready, and optimized to load fast on every device.</p>
-        <p>You get direct access to the developer throughout the project. Questions get answered quickly. Revisions happen fast. No layers, no handoffs.</p>
+        <p>Every site runs through one streamlined process — no account managers, no handoffs, no waiting in a queue. Questions get answered fast. Revisions happen fast.</p>
       </div>
       <div class="about-stats">
         <div class="stat-card">
@@ -1170,8 +1170,8 @@
           <div class="stat-label">Mobile-responsive on every screen size</div>
         </div>
         <div class="stat-card">
-          <div class="stat-number">1</div>
-          <div class="stat-label">Developer. You deal directly with the person building your site</div>
+          <div class="stat-number">0</div>
+          <div class="stat-label">Middlemen. Nothing standing between you and your finished site</div>
         </div>
       </div>
     </div>
@@ -1183,7 +1183,7 @@
   <div class="section-inner">
     <p class="section-label">Get In Touch</p>
     <h2 class="section-title">Ready to get your<br>site built?</h2>
-    <p class="section-sub">Fill out the form and I'll get back to you within a few hours to talk through what you need.</p>
+    <p class="section-sub">Fill out the form and you'll get a confirmation with next steps within a few hours.</p>
 
     <div class="contact-layout">
       <div class="contact-info">
@@ -1191,15 +1191,15 @@
         <p>Simple process, fast turnaround. Most clients are live within a week of reaching out.</p>
         <div class="contact-step">
           <div class="step-num">1</div>
-          <div class="step-text">Fill out the form — tell me about your business and what you're looking for.</div>
+          <div class="step-text">Fill out the form — tell us about your business and what you're looking for.</div>
         </div>
         <div class="contact-step">
           <div class="step-num">2</div>
-          <div class="step-text">I'll reach out within a few hours to confirm details and collect a deposit.</div>
+          <div class="step-text">You'll get a confirmation and deposit link within a few hours to lock in your spot.</div>
         </div>
         <div class="contact-step">
           <div class="step-num">3</div>
-          <div class="step-text">I build your site. You review it. We make any revisions.</div>
+          <div class="step-text">Your site gets built. You review it. We make any revisions.</div>
         </div>
         <div class="contact-step">
           <div class="step-num">4</div>
@@ -1236,7 +1236,7 @@
           </div>
           <div class="form-group">
             <label for="message">What do you need?</label>
-            <textarea id="message" name="message" placeholder="Tell me about your business and what you're looking for in a website..." required></textarea>
+            <textarea id="message" name="message" placeholder="Tell us about your business and what you're looking for in a website..." required></textarea>
           </div>
           <button type="submit" class="form-submit" id="submit-btn">Send Message →</button>
           <div class="form-status" id="form-status"></div>
@@ -1295,7 +1295,7 @@
     const honeypot = form.elements['company_url'].value.trim();
     const elapsedMs = Date.now() - Number(form.elements['form_ts'].value || 0);
     if (honeypot || elapsedMs < 3000) {
-      statusEl.textContent = "Got it! I'll be in touch within a few hours.";
+      statusEl.textContent = "Got it! You'll hear back within a few hours.";
       statusEl.className = 'form-status success';
       statusEl.style.display = '';
       form.reset();
@@ -1306,7 +1306,7 @@
     if (!SUPABASE_ANON_KEY) {
       await loadConfig();
       if (!SUPABASE_ANON_KEY) {
-        statusEl.textContent = 'Configuration error. Email me directly at hello@blatantengagement.com';
+        statusEl.textContent = 'Configuration error. Email us directly at hello@blatantengagement.com';
         statusEl.className = 'form-status error';
         statusEl.style.display = '';
         return;
@@ -1344,13 +1344,13 @@
 
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
 
-      statusEl.textContent = "Got it! I'll be in touch within a few hours.";
+      statusEl.textContent = "Got it! You'll hear back within a few hours.";
       statusEl.className = 'form-status success';
       statusEl.style.display = '';
       form.reset();
     } catch (err) {
       console.error('Form error:', err);
-      statusEl.textContent = 'Something went wrong. Email me directly at hello@blatantengagement.com';
+      statusEl.textContent = 'Something went wrong. Email us directly at hello@blatantengagement.com';
       statusEl.className = 'form-status error';
       statusEl.style.display = '';
     } finally {
